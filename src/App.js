@@ -7,6 +7,7 @@ import Products from './pages/Products';
 import Register from './pages/Register';
 
 import React, { Component } from 'react';
+import Dashboard from './pages/Dashboard';
 
 class App extends Component {
   constructor(props) {
@@ -26,6 +27,7 @@ class App extends Component {
             <Route path='/products/:category' element={<Products />} />
             <Route path='/products/:category/:productId' element={<Product />} />
             <Route path='/:productId' element={<Product />} />
+            <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/cart' element={<Cart />} />
           </Routes>
         </Router>
