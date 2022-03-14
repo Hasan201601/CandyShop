@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Col, Container, Row, Table } from 'react-bootstrap';
+import { newArrivals } from '../../../assets/data/data';
 
 class Dashboardhome extends Component {
     render() {
@@ -40,34 +41,26 @@ class Dashboardhome extends Component {
                             </Card>
                         </Col>
                     </Row>
-                    <Table striped bordered hover size="sm">
+                    <h5>Recent Orders</h5>
+                    <Table striped responsive>
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
+                                <th>id</th>
+                                <th>item</th>
+                                <th>User Email</th>
+                                <th>Price</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td colSpan={2}>Larry the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
-                        </tbody>
+                        {
+                            newArrivals.map((na, index) => <tbody>
+                                <tr>
+                                    <td>{index + 1}</td>
+                                    <td>{na.name}</td>
+                                    <td>Otto</td>
+                                    <td>{na.price}</td>
+                                </tr>
+                            </tbody>)
+                        }
                     </Table>
                 </Container>
             </div>

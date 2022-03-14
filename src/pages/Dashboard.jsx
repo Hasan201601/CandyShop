@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { Container, Nav, Navbar, NavDropdown, Offcanvas } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import profile from "../assets/images/customer.jpg"
 import Thelayout from './Dashboard/TheLayout';
 
@@ -51,14 +51,7 @@ class Dashboard extends Component {
                                 <Link to="/" className='link border-0'>
                                     <span className='fs-6 d-block text-center'><i class="bi bi-house"></i> Homepage</span>
                                 </Link>
-                                <Nav className="justify-content-end flex-grow-1 pe-3">
-                                    <Nav.Link href="#action1" className='link'>Dashboard</Nav.Link>
-                                    <Nav.Link href="#action1" className='link'>Orders</Nav.Link>
-                                    <Nav.Link href="#action1" className='link'>View Products</Nav.Link>
-                                    <Nav.Link href="#action1" className='link'>Create New Product</Nav.Link>
-                                    <Nav.Link href="#action1" className='link'>Edit Products</Nav.Link>
-                                    <Nav.Link href="#action1" className='link'>Users</Nav.Link>
-                                </Nav>
+                                <Thelayout></Thelayout>
                             </Offcanvas.Body>
                             <div className='btn text-white fs-6'>
                                 <p><i className="bi bi-box-arrow-right fs-5"></i> LogOut</p>
@@ -66,7 +59,7 @@ class Dashboard extends Component {
                         </Navbar.Offcanvas>
                     </Container>
                 </Navbar>
-                <Thelayout></Thelayout>
+                <Outlet />
             </>
         );
     }

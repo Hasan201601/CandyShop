@@ -8,6 +8,13 @@ import Register from './pages/Register';
 
 import React, { Component } from 'react';
 import Dashboard from './pages/Dashboard';
+import Dashboardhome from './pages/Dashboard/Admin/DashboardHome';
+import Orders from './pages/Dashboard/Admin/Orders';
+import AllProducts from './pages/Dashboard/Admin/AllProducts';
+import EditProduct from './pages/Dashboard/Admin/EditProduct';
+import Users from './pages/Dashboard/Admin/Users';
+import CreateProduct from './pages/Dashboard/Admin/CreateProduct';
+import PurchaseHistory from './pages/Dashboard/Admin/PurchaseHistory';
 
 class App extends Component {
   constructor(props) {
@@ -27,7 +34,16 @@ class App extends Component {
             <Route path='/products/:category' element={<Products />} />
             <Route path='/products/:category/:productId' element={<Product />} />
             <Route path='/:productId' element={<Product />} />
-            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/dashboard/*' element={<Dashboard />} >
+              <Route path="*" element={<Dashboardhome />} />
+              <Route path="home" element={<Dashboardhome />} />
+              <Route path="orders" element={<Orders />} />
+              <Route path="products" element={<AllProducts />} />
+              <Route path="products/:id" element={<EditProduct />} />
+              <Route path="users" element={<Users />} />
+              <Route path="users/:id" element={<PurchaseHistory />} />
+              <Route path='createProduct' element={<CreateProduct />} />
+            </Route>
             <Route path='/cart' element={<Cart />} />
           </Routes>
         </Router>

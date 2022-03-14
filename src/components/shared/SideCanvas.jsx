@@ -2,6 +2,7 @@ import { Offcanvas } from 'react-bootstrap';
 import React, { Component } from 'react';
 import Threedots from './ThreeDots';
 import { Link } from 'react-router-dom';
+import Login from './Login';
 
 class SideCanvas extends Component {
     render() {
@@ -16,13 +17,7 @@ class SideCanvas extends Component {
                             </Offcanvas.Header>
                             <Threedots />
                             <Offcanvas.Body className='d-flex justify-content-center align-items-start my-4'>
-                                <div className='d-flex flex-column'>
-                                    <input className='text-white w-100 my-2 p-2 border-bottom bg-transparent border-0' type="email" placeholder='Email' />
-                                    <input className='text-white w-100 my-2 p-2 border-bottom bg-transparent border-0' type="password" placeholder="Password" />
-                                    <button className='w-100 p-2 btn btn-light border-0 my-2'>SIGN IN</button>
-                                    <Link className='text-decoration-none ' to="/register"><p className='text-center'>Create Account</p></Link>
-                                    <p className='text-center'>Forgot Your Password?</p>
-                                </div>
+                                <Login />
                             </Offcanvas.Body>
                         </Offcanvas>
                         :

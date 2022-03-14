@@ -123,6 +123,11 @@ transform: scale(1.6);
   .form-container{
     width: 85%;
   }
+  .off-canvas-bs{
+    width: auto !important;
+    border-left: .7px solid white !important;
+    font-family: 'Roboto Mono', monospace;
+  }
 }
 .link{
   font-family: 'Roboto Mono', monospace;
@@ -130,4 +135,7 @@ transform: scale(1.6);
   color: white !important;
   border-bottom: 1px dotted white;
   margin-top: 10px;
+}
+.navbar-dark .navbar-nav .nav-link {
+  color: rgb(255, 255, 255) !important;
 }

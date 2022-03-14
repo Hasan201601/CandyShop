@@ -1,10 +1,10 @@
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 
 export default function withRouter(Child) {
     return (props) => {
         const params = useParams();
-        console.log(params);
-        const navigate = useNavigate()
-        return <Child {...props} params={params} />
+        const navigate = useNavigate();
+        const location = useLocation()
+        return <Child {...props} params={params} navigate={navigate} location={location} />
     }
 }
