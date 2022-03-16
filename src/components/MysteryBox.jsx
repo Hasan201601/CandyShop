@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import Threedots from './shared/ThreeDots';
-import product from "../assets/images/product.jpg"
 import { chocMysteryData } from '../assets/data/data';
+import { addToCart } from '../redux/CartSlice';
+import { connect } from 'react-redux';
+import withRouter from '../utilities/withRouter';
 
 class Mysterybox extends Component {
+
+
     render() {
         return (
             <div className=' py-5  text-center'>
@@ -35,7 +39,10 @@ class Mysterybox extends Component {
                                             <strong>&#163;{choc.price}</strong>
                                         </Card.Text>
                                         <div className='text-center my-2'>
-                                            <button className='btn btn-danger rounded-pill'>Add To Cart</button>
+                                            <button className='btn btn-danger rounded-pill' onClick={() => {
+                                                this.props.dispatch(addToCart(choc))
+                                                this.props.navigate("/cart")
+                                            }}>Add To Cart</button>
                                         </div>
                                     </Card.Body>
                                 </Card>
@@ -43,10 +50,15 @@ class Mysterybox extends Component {
                         ))}
                     </Row>
                 </Container>
-                <button className='btn btn-lg btn-info fw-bold fs-6 text-white my-5 rounded-pill'>View All</button>
+                <button className='btn btn-lg btn-info fw-bold fs-6 text-white my-5 rounded-pill' onClick={this.handleClick}>View All</button>
             </div>
         );
     }
 }
+const mapStateToProps = (state) => ({
+    quantity: state.cartTotalQuantity,
+    amount: state.cartTotalAmount
+});
 
-export default Mysterybox;
+
+export default connect(mapStateToProps)(withRouter(Mysterybox));

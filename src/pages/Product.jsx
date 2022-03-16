@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import { newArrivals } from '../assets/data/data';
 import Footer from '../components/shared/Footer';
 import Header from '../components/shared/Header';
+import { addToCart } from '../redux/CartSlice';
 import withRouter from '../utilities/withRouter';
 
 class Product extends Component {
@@ -12,20 +14,47 @@ class Product extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            image: null
+            image: null,
+            quantity: 0
         }
         this.handleImageChange = this.handleImageChange.bind(this);
+        this.handleIncrease = this.handleIncrease.bind(this);
+        this.handleDecrease = this.handleDecrease.bind(this);
+        this.handleAddToCart = this.handleAddToCart.bind(this);
     }
     handleImageChange(img) {
         this.setState({
             image: img
         })
     }
+    handleIncrease() {
+        this.setState((prevState, { quantity }) => ({
+            quantity: prevState.quantity + 1
+        }))
+    }
+    handleDecrease() {
+        if (!this.state.quantity) {
+            return
+        } else {
+            this.setState((prevState, { quantity }) => ({
+                quantity: prevState.quantity - 1
+            }))
+        }
+
+    }
+    handleAddToCart(product) {
+        const addedProduct = {
+            ...product,
+            addedQuantity: this.state.quantity
+        }
+        this.props.dispatch(addToCart(addedProduct))
+        this.props.navigate("/cart")
+        console.log(this.props);
+    }
     render() {
         const product = newArrivals.find(pd => pd.id == this.props.params.productId)
         return (
             <div >
-                {console.log(product)}
                 <Header />
                 <Container className='my-5'>
                     <Row className='g-3 align-items-center justify-content-center'>
@@ -57,11 +86,11 @@ class Product extends Component {
                             <br />
                             <p>Quantity</p>
                             <div className='d-flex align-items-center justify-content-center'>
-                                <button className='btn btn-danger fs-5 px-3'>-</button>
-                                <span className='mx-3 fs-4'>{5}</span>
-                                <button className='btn btn-danger fs-5 px-3'>+</button>
+                                <button onClick={this.handleDecrease} className='btn btn-danger fs-5 px-3'>-</button>
+                                <span className='mx-3 fs-4'>{this.state.quantity}</span>
+                                <button className='btn btn-danger fs-5 px-3' onClick={this.handleIncrease}>+</button>
                             </div>
-                            <button className='btn btn-lg btn-info text-white  my-5'>ADD TO CART</button>
+                            <button disabled={this.state.quantity ? false : true} onClick={() => this.handleAddToCart(product)} className='btn btn-lg btn-info text-white  my-5'>ADD TO CART</button>
                         </Col>
                     </Row>
                 </Container>
@@ -70,5 +99,9 @@ class Product extends Component {
         );
     }
 }
+const mapStateToProps = (state) => ({
+    quantity: state.cart.cartTotalQuantity,
+    amount: state.cart.cartTotalAmount
+})
 
-export default withRouter(Product);
+export default connect(mapStateToProps)(withRouter(Product));

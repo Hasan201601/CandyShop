@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Badge, Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import { categoryData } from '../../assets/data/data';
+import { getTotals } from '../../redux/CartSlice';
 import SideCanvas from './SideCanvas';
 
 
@@ -31,7 +33,12 @@ class Header extends Component {
         })
     }
 
+    componentDidMount() {
+        this.props.dispatch(getTotals())
+    }
+
     render() {
+        const isAdmin = true
         return (
             <div className='py-2 bg-dark-theme border-theme'>
                 <Navbar
@@ -39,7 +46,7 @@ class Header extends Component {
                     collapseOnSelect
                     expand="lg"
                     variant="dark"
-
+                    sticky="top"
                 >
                     <Navbar.Brand><Link to="/" className='text-decoration-none text-white fw-bold fs-2'>Candy<span className='text-danger'>Shop</span></Link></Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -53,7 +60,7 @@ class Header extends Component {
                                 {/* <NavDropdown.Divider /> */}
                             </NavDropdown>
                             <NavLink to="/" className='mx-2 text-decoration-none text-white'>New Arrivals</NavLink>
-                            <NavLink to="/dashboard" className='mx-2 text-decoration-none text-white'>Dashboard</NavLink>
+                            <NavLink to={isAdmin ? "/dashboard" : "/userDashboard"} className='mx-2 text-decoration-none text-white'>Dashboard</NavLink>
                         </Nav>
                     </Navbar.Collapse>
                     <SideCanvas
@@ -77,8 +84,8 @@ class Header extends Component {
                                 <div
                                     className='px-2 pointer'
                                 >
-                                    <span className=' d-flex align-items-center'>
-                                        <i className="bi bi-cart header-icon fs-3"></i><Badge bg="info">{6}</Badge>
+                                    <span className='px-3 d-flex align-items-center'>
+                                        <i className="bi bi-cart header-icon fs-3"></i><Badge bg="info" className='pe-2'>{this.props.quantity}</Badge>
                                     </span>
                                 </div>
                             </Link>
@@ -87,9 +94,13 @@ class Header extends Component {
                 </Navbar>
 
 
-            </div>
+            </div >
         );
     }
 }
+const mapStateToProps = (state) => ({
+    quantity: state.cart.cartTotalQuantity,
+    amount: state.cart.cartTotalAmount
+})
 
-export default Header;
+export default connect(mapStateToProps)(Header);

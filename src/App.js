@@ -15,6 +15,20 @@ import EditProduct from './pages/Dashboard/Admin/EditProduct';
 import Users from './pages/Dashboard/Admin/Users';
 import CreateProduct from './pages/Dashboard/Admin/CreateProduct';
 import PurchaseHistory from './pages/Dashboard/Admin/PurchaseHistory';
+import { connect } from 'react-redux';
+import { getTotals } from './redux/CartSlice';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Privateoutlet from './pages/Dashboard/Outlets/PrivateOutlet';
+import Login from './pages/Login';
+import AdminOutlet from './pages/Dashboard/Outlets/AdminOutlet';
+import ReturnProducts from './pages/Dashboard/User/ReturnProducts';
+import UpdateProfile from './pages/Dashboard/User/UpdateProfile';
+import Purchase from './pages/Dashboard/User/PurchaseHistory';
+
+
+toast.configure();
+
 
 class App extends Component {
   constructor(props) {
@@ -34,7 +48,14 @@ class App extends Component {
             <Route path='/products/:category' element={<Products />} />
             <Route path='/products/:category/:productId' element={<Product />} />
             <Route path='/:productId' element={<Product />} />
-            <Route path='/dashboard/*' element={<Dashboard />} >
+            <Route path="/login" element={<Login />} />
+            <Route path="/userDashboard/*" element={<Privateoutlet />} >
+              <Route path="*" element={<Purchase />} />
+              <Route path="purchaseHistory" element={<Purchase />} />
+              <Route path="return" element={<ReturnProducts />} />
+              <Route path="updateProfile" element={<UpdateProfile />} />
+            </Route>
+            <Route path='/dashboard/*' element={<AdminOutlet />}>
               <Route path="*" element={<Dashboardhome />} />
               <Route path="home" element={<Dashboardhome />} />
               <Route path="orders" element={<Orders />} />
@@ -47,10 +68,14 @@ class App extends Component {
             <Route path='/cart' element={<Cart />} />
           </Routes>
         </Router>
-      </div>
+      </div >
     );
   }
 }
+const mapStateToProps = (state) => ({
+  quantity: state.cartTotalQuantity,
+  amount: state.cartTotalAmount
+});
 
-export default App;
+export default connect(mapStateToProps)(App);
 

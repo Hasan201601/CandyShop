@@ -56,16 +56,19 @@ export const categoryData = [
 
 export const chocMysteryData = [
     {
+        id: 1,
         name: "Supreme Japanese Sweetbox",
         img: cat5,
         price: 49
     },
     {
+        id: 2,
         name: "American Candy Mega Box",
         img: box1,
         price: 56
     },
     {
+        id: 3,
         name: "American Drinks",
         img: cat7,
         price: 37

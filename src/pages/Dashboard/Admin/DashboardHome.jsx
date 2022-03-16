@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Col, Container, Row, Table } from 'react-bootstrap';
+import { Outlet } from 'react-router';
 import { newArrivals } from '../../../assets/data/data';
 
 class Dashboardhome extends Component {

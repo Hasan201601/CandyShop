@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-class UpdateProfile extends Component {
+class Purchase extends Component {
     render() {
         return (
             <div>
-                Update
+                Purchase
             </div>
         );
     }
 }
 
-export default UpdateProfile;
+export default Purchase;
