@@ -27,7 +27,8 @@ const cartSlice = createSlice({
                     cartQuantity: state.cartItems[existingIndex].cartQuantity + 1
                 };
                 toast.info(`Increased Product quantity`, {
-                    position: "bottom-left"
+                    position: "bottom-left",
+                    autoClose: 1500
                 });
             } else {
                 if (action.payload.addedQuantity) {
@@ -42,7 +43,8 @@ const cartSlice = createSlice({
                 }
                 state.cartItems.push(tempProductItem);
                 toast.info("Product added to cart", {
-                    position: "bottom-left"
+                    position: "bottom-left",
+                    autoClose: 1500
                 })
             }
         },
@@ -52,12 +54,14 @@ const cartSlice = createSlice({
                 state.cartItems[itemIndex].cartQuantity -= 1;
                 toast.info("Decreased product quantity", {
                     position: "bottom-left",
+                    autoClose: 1500,
                 });
             } else if (state.cartItems[itemIndex].cartQuantity === 1) {
                 const remainingCartItems = state.cartItems.filter(item => item.id !== action.payload.id);
                 state.cartItems = remainingCartItems;
                 toast.error("Product removed from cart", {
                     position: "bottom-left",
+                    autoClose: 1500,
                 });
             }
         },
@@ -72,6 +76,7 @@ const cartSlice = createSlice({
 
                     toast.error("Product removed from cart", {
                         position: "bottom-left",
+                        autoClose: 1500,
                     });
                 }
                 return state;
@@ -100,11 +105,9 @@ const cartSlice = createSlice({
         clearCart: (state, action) => {
             state.cartItems = [];
             toast.error("Cart Cleared", {
-                position: "bottom-left"
+                position: "bottom-left",
+                autoClose: 1500
             })
-            setInterval(() => {
-                window.location.reload()
-            }, 5000)
         }
     }
 })
