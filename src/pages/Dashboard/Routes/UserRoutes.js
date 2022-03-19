@@ -5,6 +5,11 @@ const userRoutes = [
         routeName: "Purchase History"
     },
     {
+        path: "orders",
+        style: "link",
+        routeName: "My Orders"
+    },
+    {
         path: "updateProfile",
         style: "link",
         routeName: "Update Profile"
@@ -12,7 +17,7 @@ const userRoutes = [
     {
         path: "return",
         style: "link",
-        routeName: "Return Products"
+        routeName: "Returned Products"
     }
 ]
 export default userRoutes;

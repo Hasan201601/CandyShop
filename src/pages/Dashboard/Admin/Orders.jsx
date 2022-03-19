@@ -1,9 +1,13 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import { Container, Dropdown, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { newArrivals } from '../../../assets/data/data';
 
 class Orders extends Component {
+    componentDidMount() {
+        axios.get("")
+    }
     render() {
         return (
             <div>

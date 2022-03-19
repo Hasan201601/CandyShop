@@ -20,7 +20,9 @@ const cartSlice = createSlice({
                     state.cartItems[existingIndex] = {
                         ...state.cartItems[existingIndex],
                         cartQuantity: action.payload.addedQuantity + state.cartItems[existingIndex].cartQuantity - 1
+
                     };
+                    action.payload.addedQuantity = 1
                 }
                 state.cartItems[existingIndex] = {
                     ...state.cartItems[existingIndex],

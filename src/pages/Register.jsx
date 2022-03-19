@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import Footer from '../components/shared/Footer';
 import Header from '../components/shared/Header';
 import bg from "../assets/images/reg-bg.jpg"
-import Firebase from '../Authentication/FirebaseAuth';
+import Firebase from '../Authentication/Auth';
 import withRouter from '../utilities/withRouter';
+import { connect } from 'react-redux';
+import { setUser } from '../redux/UserSlice';
+import { Link } from 'react-router-dom';
 
 class Register extends Component {
     constructor(props) {
@@ -18,7 +21,6 @@ class Register extends Component {
         this.handlelastNameChange = this.handlelastNameChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
-
     }
     handleFirstNameChange(e) {
         this.setState({
@@ -50,14 +52,17 @@ class Register extends Component {
         const location = this.props.location;
 
         const navigate = this.props.navigate;
-        userCreateAccount(email, password, userName, location, navigate)
+        userCreateAccount(email, password, userName)
+            .then(res => this.props.dispatch(setUser(res.data)))
 
     }
 
     render() {
         return (
             <div>
+
                 <Header />
+
                 <div style={{ background: `url(${bg})`, backgroundSize: "cover" }} className=' text-white py-5 position-relative '>
                     <div style={{ position: "relative", zIndex: 999 }}>
                         <h1>Create Account</h1>
@@ -69,7 +74,7 @@ class Register extends Component {
                                 <input required className='text-white w-100 my-2 p-2 border-bottom bg-transparent border-0' type="password" placeholder="Password" onBlur={e => this.handlePasswordChange(e)} />
                                 <button type='submit' className='w-100 p-2 btn btn-danger fw-bolder text-white border-0 my-2'>CREATE</button>
                             </form>
-                            <p>Return to Store</p>
+                            <Link to="/" className='text-decoration-none'><p>Return to Store</p></Link>
                         </div>
                     </div>
                     <div className='overlay'>
@@ -77,9 +82,12 @@ class Register extends Component {
                     </div>
                 </div>
                 <Footer />
-            </div>
+            </div >
         );
     }
 }
+const mapStateToProps = (state) => ({
+    user: state.user
+})
 
-export default withRouter(Register);
+export default connect(mapStateToProps)(withRouter(Register));

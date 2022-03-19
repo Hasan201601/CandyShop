@@ -1,9 +1,26 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import { Card, Col, Container, Row, Table } from 'react-bootstrap';
 import { Outlet } from 'react-router';
 import { newArrivals } from '../../../assets/data/data';
 
 class Dashboardhome extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            orders: []
+        }
+    }
+
+    componentDidMount() {
+        axios.get("http://localhost:5000/orders")
+            .then(res => {
+                console.log(res.data)
+                this.setState({
+                    orders: res.data
+                })
+            })
+    }
     render() {
         return (
             <div>

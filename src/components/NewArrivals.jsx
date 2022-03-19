@@ -47,7 +47,7 @@ class Newarrivals extends Component {
                         ))}
                     </Row>
                 </Container>
-                <button className='btn btn-lg btn-info text-white fs-6 fw-bold rounded-0'><Link to={`/products/newArrivals`} className="text-decoration-none text-white">View All</Link></button>
+                <button className='btn btn-lg btn-info text-white fs-6 fw-bold rounded-0'><Link to={`/products/all`} className="text-decoration-none text-white">View All</Link></button>
             </div >
         );
     }

@@ -25,6 +25,9 @@ import AdminOutlet from './pages/Dashboard/Outlets/AdminOutlet';
 import ReturnProducts from './pages/Dashboard/User/ReturnProducts';
 import UpdateProfile from './pages/Dashboard/User/UpdateProfile';
 import Purchase from './pages/Dashboard/User/PurchaseHistory';
+import { setUser } from './redux/UserSlice';
+import Checkout from './pages/Checkout';
+import Myorders from './pages/Dashboard/User/MyOrders';
 
 
 toast.configure();
@@ -53,6 +56,7 @@ class App extends Component {
               <Route path="*" element={<Purchase />} />
               <Route path="purchaseHistory" element={<Purchase />} />
               <Route path="return" element={<ReturnProducts />} />
+              <Route path="orders" element={<Myorders />} />
               <Route path="updateProfile" element={<UpdateProfile />} />
             </Route>
             <Route path='/dashboard/*' element={<AdminOutlet />}>
@@ -66,6 +70,7 @@ class App extends Component {
               <Route path='createProduct' element={<CreateProduct />} />
             </Route>
             <Route path='/cart' element={<Cart />} />
+            <Route path='/checkout' element={<Checkout />} />
           </Routes>
         </Router>
       </div >

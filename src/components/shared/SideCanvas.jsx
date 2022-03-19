@@ -17,7 +17,7 @@ class SideCanvas extends Component {
                             </Offcanvas.Header>
                             <Threedots />
                             <Offcanvas.Body className='d-flex justify-content-center align-items-start my-4'>
-                                <Login />
+                                <Login handleClose={this.props.handleClose} />
                             </Offcanvas.Body>
                         </Offcanvas>
                         :

@@ -217,7 +217,9 @@ class Cart extends Component {
                                         <div className="continue-shopping">
                                             <h5 className='my-3'>Total : {this.props.amount}</h5>
                                             <div className='my-3'>
-                                                <button className='btn btn-success'>Checkout</button>
+                                                <Link to="/checkout" className='text-decoration-none text-white'>
+                                                    <button className='btn btn-success'>Checkout</button>
+                                                </Link>
                                             </div>
                                             <Link to="/">
                                                 <svg

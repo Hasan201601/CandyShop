@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Navigate, Outlet } from 'react-router';
 import Dashboard from '../../Dashboard';
 
 class AdminOutlet extends Component {
     render() {
-        const isAdmin = true;
         return (
-            isAdmin ? <Dashboard><Outlet /></Dashboard> : <Navigate to="/login" />
+            this.props.user.user.isAdmin ? <Dashboard><Outlet /></Dashboard> : <Navigate to="/login" />
         );
     }
 }
+const mapStateToProps = (state) => ({
+    user: state.user
+})
 
-export default AdminOutlet;
+export default connect(mapStateToProps)(AdminOutlet);

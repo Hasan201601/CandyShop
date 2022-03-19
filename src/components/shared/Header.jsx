@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Badge, Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { connect, useDispatch, useSelector } from 'react-redux';
+import { isExpired, decodeToken } from "react-jwt";
 import { Link, NavLink } from 'react-router-dom';
 import { categoryData } from '../../assets/data/data';
+import Auth from "../../Authentication/Auth"
 import { getTotals } from '../../redux/CartSlice';
+import { setUser } from '../../redux/UserSlice';
 import SideCanvas from './SideCanvas';
 
 const Header = () => {
     const [show, setShow] = useState(false)
     const [component, setComponent] = useState("");
     const cart = useSelector((state) => state.cart);
+    const user = useSelector((state) => state.user);
+    const isAdmin = user.user?.isAdmin;
     const dispatch = useDispatch()
     const handleShow = (component) => {
         setShow(true)
@@ -23,7 +28,9 @@ const Header = () => {
         setShow(false)
         setComponent(component)
     }
-    const isAdmin = true;
+    const handleLogout = () => {
+        dispatch(setUser({}))
+    }
     return (
         <div className='py-2 bg-dark-theme border-theme'>
             <Navbar
@@ -45,7 +52,9 @@ const Header = () => {
                             <NavDropdown.Divider />
                         </NavDropdown >
                         <NavLink to="/" className='mx-2 text-decoration-none text-white'>New Arrivals</NavLink>
-                        <NavLink to={isAdmin ? "/dashboard" : "/userDashboard"} className='mx-2 text-decoration-none text-white'>Dashboard</NavLink>
+                        {
+                            user.user.userName ? <NavLink to={isAdmin ? "/dashboard" : "/userDashboard"} className='mx-2 text-decoration-none text-white'>Dashboard</NavLink> : <></>
+                        }
                     </Nav >
                 </Navbar.Collapse >
                 <SideCanvas
@@ -61,9 +70,15 @@ const Header = () => {
                         >
                             <i className="bi bi-search"></i> Search
                         </button>
-                        <div onClick={() => handleShow("login")}
-                            className='px-3 pointer'>
-                            <i className="bi bi-person-fill header-icon"></i> Account
+                        <div className='px-3 pointer'>
+                            {user.user.email ?
+                                <>
+                                    <div onClick={handleLogout} className="btn btn-info">LogOut</div>
+                                </> :
+                                <div onClick={() => handleShow("login")} >
+                                    <i className="bi bi-person-fill header-icon"></i>Login
+                                </div>
+                            }
                         </div>
                         <Link to="/cart" className='text-decoration-none text-white'>
                             <div
@@ -75,7 +90,7 @@ const Header = () => {
                             </div>
                         </Link>
                     </div>
-                </div>
+                </div >
             </Navbar >
 
 
