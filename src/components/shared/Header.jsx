@@ -8,6 +8,7 @@ import Auth from "../../Authentication/Auth"
 import { getTotals } from '../../redux/CartSlice';
 import { setUser } from '../../redux/UserSlice';
 import SideCanvas from './SideCanvas';
+import logo from "../../assets/images/SugarShack.webp"
 
 const Header = () => {
     const [show, setShow] = useState(false)
@@ -41,7 +42,7 @@ const Header = () => {
                 variant="dark"
                 sticky="top"
             >
-                <Navbar.Brand><Link to="/" className='text-decoration-none text-white fw-bold fs-2'>Candy<span className='text-danger'>Shop</span></Link></Navbar.Brand>
+                <Navbar.Brand><Link to="/" className='text-decoration-none text-white fw-bold fs-2'><img style={{ height: '80px', width: '80px' }} src={logo} alt="" /></Link></Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="m-auto d-flex align-items-center justify-content-center">
