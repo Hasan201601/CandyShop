@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Col, Container, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Row, Spinner } from 'react-bootstrap';
 import Threedots from './shared/ThreeDots';
 import { chocMysteryData } from '../assets/data/data';
 import { addToCart } from '../redux/CartSlice';
@@ -11,18 +11,26 @@ class Mysterybox extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mysteryProducts: []
+            mysteryProducts: [],
+            isLoading: false
         }
     }
 
     componentDidMount() {
+        this.setState({ isLoading: true })
         axios.get("http://localhost:5000/api/products/mystery")
             .then(res => {
+                this.setState({ isLoading: false })
                 console.log(res.data)
                 this.setState({ mysteryProducts: res.data })
+                console.log(this.state.mysteryProducts);
             })
     }
-
+    componentWillUnmount() {
+        this.setState = (state, callback) => {
+            return;
+        };
+    }
     render() {
         return (
             <div className=' py-5  text-center'>
@@ -41,20 +49,31 @@ class Mysterybox extends Component {
                 </div>
                 <Container>
                     <Row xs={1} md={3} className="g-4">
-                        {chocMysteryData.map((choc) => (
+                        {this.state.isLoading && <Button className='fw-bolder m-auto my-5 ' variant="transparent" >
+                            <Spinner
+                                as="span"
+                                animation="grow"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                            />
+                            Loading Products...
+                        </Button>}
+                        {this.state.mysteryProducts.map((mp) => (
+
                             <Col >
-                                <Card className='shadow-lg border-1' bg="transparent" data-bs-toggle="tooltip" data-bs-placement="top" title="American Candy Mega" >
+                                <Card className='shadow-lg border-1' bg="transparent" data-bs-toggle="tooltip" data-bs-placement="top" title={mp.title} >
                                     <div className='card-img'>
-                                        <Card.Img height="300px" className='w-100 border-3 cover shadow-sm' variant="top" src={choc.img} />
+                                        <Card.Img width="200px" height="300px" className='w-100 border-3 cover shadow-sm' variant="top" src={mp.img1} />
                                     </div>
                                     <Card.Body className="">
-                                        <Card.Title className=' opacity-75'>{choc.name}</Card.Title>
+                                        <Card.Title className='opacity-75'>{mp.title}</Card.Title>
                                         <Card.Text className=' opacity-75'>
-                                            <strong>&#163;{choc.price}</strong>
+                                            <strong>&#163;{mp.price}</strong>
                                         </Card.Text>
                                         <div className='text-center my-2'>
                                             <button className='btn btn-danger rounded-pill' onClick={() => {
-                                                this.props.dispatch(addToCart(choc))
+                                                this.props.dispatch(addToCart(mp))
                                                 this.props.navigate("/cart")
                                             }}>Add To Cart</button>
                                         </div>

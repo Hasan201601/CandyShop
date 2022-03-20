@@ -14,7 +14,7 @@ class CreateCategory extends Component {
     }
     handleImgChange(e) {
         this.setState({
-            image: e.target.files[0]
+            image: e.target.value
         })
     }
     handleCatChange(e) {
@@ -25,10 +25,11 @@ class CreateCategory extends Component {
     }
     handleClick(e) {
         e.preventDefault()
-        const data = new FormData()
-        data.append("img", this.state.image)
-        data.append("title", this.state.category)
         const token = this.props.user.accessToken
+        const data = {
+            title: this.state.category,
+            image: this.state.image
+        }
 
         fetch('http://localhost:5000/api/categories/', {
             method: 'POST',

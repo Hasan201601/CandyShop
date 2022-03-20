@@ -23,11 +23,6 @@ const adminRoutes = [
         path: "users",
         style: "link",
         routeName: "Users"
-    },
-    {
-        path: "createCategory",
-        style: "link",
-        routeName: "Create Categories"
     }
 
 ]

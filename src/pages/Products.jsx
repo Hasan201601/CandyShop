@@ -4,8 +4,8 @@ import Header from '../components/shared/Header';
 
 import withRouter from '../utilities/withRouter';
 import { Link } from 'react-router-dom';
-import { Card, Col, Container, Form, Row } from 'react-bootstrap';
-import { newArrivals } from '../assets/data/data';
+import { Button, Card, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
+import { categoryData, newArrivals } from '../assets/data/data';
 import { addToCart } from '../redux/CartSlice';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -17,10 +17,13 @@ class Products extends Component {
         this.state = {
             filter: 0,
             sort: 0,
-            products: []
+            products: [],
+            filteredProducts: [],
+            isLoading: false
 
         }
         this.handleSort = this.handleSort.bind(this);
+        this.handleCategoryChange = this.handleCategoryChange.bind(this);
     }
     handleSort(e) {
         this.setState({
@@ -28,31 +31,59 @@ class Products extends Component {
         })
     }
     componentDidMount() {
+        this.setState({ isLoading: true })
+        if (this.props.params.category === "all") {
+            axios.get(`http://localhost:5000/api/products`)
+                .then(res => {
+                    this.setState({
+                        isLoading: false,
+                        products: res.data,
+                        filteredProducts: res.data
+                    })
+                })
+        }
         axios.get(`http://localhost:5000/api/products/${this.props.params.category}`)
             .then(res => {
-                console.log(res.data);
                 this.setState({
-                    products: res.data
+                    isLoading: false,
+                    products: res.data,
+                    filteredProducts: res.data
                 })
+            }).catch((err) => {
+                if (err) {
+                    this.setState({ isLoading: false })
+                }
             })
     }
+    componentWillUnmount() {
+        this.setState = (state, callback) => {
+            return;
+        };
+    }
+    handleCategoryChange(e) {
+        console.log(this.state.products);
+        console.log(e.target.value)
+        if (e.target.value === "All Products") {
+            this.setState({ filteredProducts: this.state.products })
+        } else {
+            const filteredProducts = this.state.products.filter(pd => pd.category === e.target.value)
+            console.log(filteredProducts)
+            this.setState({ filteredProducts: filteredProducts })
+        }
 
+    }
 
     render() {
         return (
             <div id="P">
-                {this.props.params.category}
                 <Header />
                 <Container>
-                    <h4>{this.props.category}</h4>
                     <div className='d-flex align-items-center justify-content-space-around mt-5 mb-3'>
                         <div className='w-25 m-auto'>
                             <p>Filter</p>
-                            <Form.Select className='text-center' aria-label="Default select example" >
-                                <option >All Products</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                            <Form.Select className='text-center' onChange={e => this.handleCategoryChange(e)} name="cars" id="cars">
+                                <option >Filter by Category</option>
+                                {categoryData.map(data => <option value={data.category}>{data.category}</option>)}
                             </Form.Select>
                         </div>
                         <div className='w-25 m-auto'>
@@ -66,9 +97,20 @@ class Products extends Component {
                         </div>
                     </div>
 
+                    {this.state.isLoading && <Button className='fw-bolder m-auto my-5 ' variant="transparent" >
+                        <Spinner
+                            as="span"
+                            animation="grow"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                        />
+                        Loading Products...
+                    </Button>}
 
+                    <h4>{this.props.category}</h4>
                     <Row xs={1} md={4} className="g-4 my-3 p-4">
-                        {newArrivals.map((na, index) => (
+                        {this.state.filteredProducts.map((na, index) => (
                             <Col className=' rounded-0'>
                                 <Card className='shadow-lg border-1 rounded-0' bg="transparent" data-bs-toggle="tooltip" data-bs-placement="top" title={na.name} >
                                     <Link className='text-decoration-none' to={`${na.id}`}>

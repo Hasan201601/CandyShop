@@ -46,13 +46,8 @@ const Header = () => {
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="m-auto d-flex align-items-center justify-content-center">
                         <NavLink to="/" className='mx-2 text-decoration-none text-white'>Home</NavLink>
-                        <NavDropdown menuVariant="dark" title="All Products" id="collasible-nav-dropdown">
-                            {categoryData.map(cat => <NavDropdown.Item href="#action/3.1">{cat.category}</NavDropdown.Item>
-                            )}
-
-                            <NavDropdown.Divider />
-                        </NavDropdown >
-                        <NavLink to="/" className='mx-2 text-decoration-none text-white'>New Arrivals</NavLink>
+                        <NavLink to="/products/all" className='mx-4 text-decoration-none text-white'>All Products</NavLink>
+                        <NavLink to="/register" className='mx-2 text-decoration-none text-white'>Register</NavLink>
                         {
                             user?.user?.userName ? <NavLink to={isAdmin ? "/dashboard" : "/userDashboard"} className='mx-2 text-decoration-none text-white'>Dashboard</NavLink> : <></>
                         }

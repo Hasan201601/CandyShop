@@ -28,7 +28,6 @@ import Purchase from './pages/Dashboard/User/PurchaseHistory';
 import { setUser } from './redux/UserSlice';
 import Checkout from './pages/Checkout';
 import Myorders from './pages/Dashboard/User/MyOrders';
-import CreateCategory from './pages/Dashboard/Admin/CreateCategory';
 
 
 toast.configure();
@@ -69,7 +68,6 @@ class App extends Component {
               <Route path="users" element={<Users />} />
               <Route path="users/:id" element={<PurchaseHistory />} />
               <Route path='createProduct' element={<CreateProduct />} />
-              <Route path='createCategory' element={<CreateCategory />} />
             </Route>
             <Route path='/cart' element={<Cart />} />
             <Route path='/checkout' element={<Checkout />} />

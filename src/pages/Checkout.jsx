@@ -44,7 +44,7 @@ class Checkout extends Component {
 
                         </div>
                         <div class="form-group my-3">
-                            <input onChange={(e) => this.handlePhoneChange(e)} type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Phone number" required />
+                            <input onChange={(e) => this.handlePhoneChange(e)} type="text" className="form-control" placeholder="Phone number" required />
 
                         </div>
                         <div className='my-3'>

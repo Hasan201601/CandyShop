@@ -22,34 +22,42 @@ import pd8 from "../images/pd8.jpg";
 export const categoryData = [
     {
         category: "All Products",
+        link: "all",
         img: cat1
     },
     {
         category: "Chocolate of the world",
+        link: "chocolateOfWorlds",
         img: cat2
     },
     {
         category: "International Candy Shop",
+        link: "internationalCandyShop",
         img: cat3
     },
     {
         category: "Soda Shop",
+        link: "sodaShop",
         img: cat4
     },
     {
         category: "Snack Shop",
+        link: "snackShop",
         img: cat5
     },
     {
         category: "American Breakfast",
+        link: "americanBreakfast",
         img: cat6
     },
     {
         category: "Cakes, Cookies and More",
+        link: "more",
         img: cat7
     },
     {
         category: "New Arrivals",
+        link: "newArrivals",
         img: cat8
     }
 ]

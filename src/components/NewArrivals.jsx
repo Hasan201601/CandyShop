@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Button, Spinner } from 'react-bootstrap';
 import React, { Component } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
@@ -12,15 +13,23 @@ class Newarrivals extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            latestProducts: []
+            latestProducts: [],
+            isLoading: false
         }
     }
     componentDidMount() {
+        this.setState({ isLoading: true })
         axios.get("http://localhost:5000/api/products/latest")
             .then(res => {
+                this.setState({ isLoading: false })
                 console.log(res.data)
                 this.setState({ latestProducts: res.data })
             })
+    }
+    componentWillUnmount() {
+        this.setState = (state, callback) => {
+            return;
+        };
     }
 
     render() {
@@ -32,7 +41,17 @@ class Newarrivals extends Component {
                 </div>
                 <Container>
                     <Row xs={1} md={4} className="g-4 my-3 p-4">
-                        {newArrivals.map((na) => (
+                        {this.state.isLoading && <Button className='fw-bolder m-auto my-5 ' variant="transparent" >
+                            <Spinner
+                                as="span"
+                                animation="grow"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                            />
+                            Loading Products...
+                        </Button>}
+                        {this.state.latestProducts.map((na) => (
                             <Col className=' rounded-0'>
                                 <Card className='shadow-lg border-1 rounded-0' bg="transparent" data-bs-toggle="tooltip" data-bs-placement="top" title={na.name} >
                                     <Link className='text-decoration-none' to={`${na.id}`}>

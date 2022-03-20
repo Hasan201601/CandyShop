@@ -5,8 +5,20 @@ import { Link } from 'react-router-dom';
 import { newArrivals } from '../../../assets/data/data';
 
 class Orders extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            status: ""
+        }
+    }
+
     componentDidMount() {
         axios.get("")
+    }
+    handleChange(e) {
+        this.setState({
+            status: e.target.value
+        })
     }
     render() {
         return (
@@ -29,13 +41,13 @@ class Orders extends Component {
                                     <td>{na.name}</td>
                                     <td>Otto</td>
                                     <td>
-                                        <select class="form-select w-50 m-auto" aria-label="Default select example">
-                                            <option selected>pending</option>
-                                            <option value="1">approved</option>
-                                            <option value="2">shipped</option>
+                                        <select onChange={e => this.handleChange(e)} class="form-select  m-auto" aria-label="Default select example">
+                                            <option value="pending">pending</option>
+                                            <option value="approved">approved</option>
+                                            <option value="shipped">shipped</option>
                                         </select>
                                     </td>
-                                    <td className=' pointer text-dark'><i className="bi bi-trash"></i> Delete Order</td>
+                                    <td className=' pointer text-dark'><i className="bi bi-trash"></i>  Delete Order</td>
                                 </tr>
                             </tbody>)
                         }

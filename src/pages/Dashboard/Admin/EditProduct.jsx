@@ -8,13 +8,14 @@ class Editproduct extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            img1: null,
-            img2: null,
-            img3: null,
+            img1: '',
+            img2: "",
+            img3: "",
             productName: "",
             category: "",
             price: 0,
             stock: 0,
+            mysterybox: false,
             desc1: "",
             desc2: "",
             desc3: ""
@@ -22,18 +23,19 @@ class Editproduct extends Component {
         }
     }
     handleFirstImage(e) {
-        this.setState({ img1: e.target.files[0] })
+        this.setState({ img1: e.target.value })
     }
     handleSecondImage(e) {
-        this.setState({ img2: e.target.files[0] })
+        this.setState({ img2: e.target.value })
     }
     handleThirdImage(e) {
-        this.setState({ img3: e.target.files[0] })
+        this.setState({ img3: e.target.value })
     }
     handleProductNameChange(e) {
         this.setState({ productName: e.target.value })
     }
     handleCategoryChange(e) {
+        console.log(e.target.value);
         this.setState({ category: e.target.value })
     }
     handlePriceChange(e) {
@@ -51,19 +53,31 @@ class Editproduct extends Component {
     handleThirdDescChange(e) {
         this.setState({ desc3: e.target.value })
     }
+    handleChecked(e) {
+        console.log(e.target.checked);
+        this.setState({
+            mysterybox: e.target.checked
+        })
+    }
+    handleDropdownChange(e) {
+        console.log(e.target);
+    }
     handleSubmit(e) {
         e.preventDefault();
-        const data = new FormData();
-        data.append("img1", this.state.img1)
-        data.append("img2", this.state.img2)
-        data.append("img3", this.state.img3)
-        data.append("productName", this.state.productName)
-        data.append("category", this.state.category)
-        data.append("price", this.state.price)
-        data.append("stock", this.state.stock)
-        data.append("desc", this.state.desc1)
-        data.append("desc", this.state.desc2)
-        data.append("desc", this.state.desc3)
+        console.log(this.state)
+        const data = {
+            title: this.state.productName,
+            img1: this.state.img1,
+            img2: this.state.img2,
+            img3: this.state.img3,
+            category: this.state.category,
+            mysterybox: this.state.mysterybox,
+            price: this.state.price,
+            stock: this.state.stock,
+            desc1: this.state.desc1,
+            desc2: this.state.desc2,
+            desc3: this.state.desc3
+        }
         const id = this.props.params.id;
         const token = this.props.user.user.accessToken
         fetch(`http://localhost:5000/api/products/${id}`, {
@@ -91,13 +105,13 @@ class Editproduct extends Component {
                         <Row className='mx-md-5 m-auto'>
                             <h5>Update Images</h5>
                             <div className="form-group  my-3">
-                                <input onChange={e => this.handleFirstImage(e)} accept="images/*" type="file" className="form-control" id="img1" placeholder="image1" />
+                                <input onChange={e => this.handleFirstImage(e)} type="text" className="form-control" id="img1" placeholder="Upload your image link" />
                             </div>
                             <div className="form-group my-3">
-                                <input onChange={e => this.handleSecondImage(e)} accept="images/*" type="file" className="form-control" id="exampleInputPassword1" placeholder="image2" />
+                                <input onChange={e => this.handleSecondImage(e)} type="text" className="form-control" id="exampleInputPassword1" placeholder="Upload your image link" />
                             </div>
                             <div className="form-group my-3">
-                                <input onChange={e => this.handleThirdImage(e)} type="file" accept="images/*" className="form-control" id="exampleInputPassword1" placeholder="image3" />
+                                <input onChange={e => this.handleThirdImage(e)} type="text" className="form-control" id="exampleInputPassword1" placeholder="Upload your image link" />
                             </div>
                         </Row>
                         <Row className='align-items-center justify-content-center'>

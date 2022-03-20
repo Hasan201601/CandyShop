@@ -6,22 +6,7 @@ import { categoryData } from '../assets/data/data';
 
 
 class CategoriesSection extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            products: []
-        }
-    }
 
-    componentDidMount() {
-        axios.get(`http://localhost:5000/api/prodcuts/mysterybox`)
-            .then(res => {
-                console.log(res.data);
-                this.setState({
-                    products: res.data
-                })
-            })
-    }
     render() {
         return (
 
@@ -40,7 +25,7 @@ class CategoriesSection extends Component {
 
                                 </div>
                                 <div className='text-center my-2 position-absolute top-50 start-50 translate-middle'>
-                                    <Link to={`/products/${cat.category}`}>
+                                    <Link to={`/products/${cat.link}`}>
                                         <button className='btn btn-danger border-0'>{cat.category}</button>
                                     </Link>
                                 </div>
