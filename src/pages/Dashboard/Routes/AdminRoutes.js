@@ -24,6 +24,11 @@ const adminRoutes = [
         style: "link",
         routeName: "Users"
     },
+    {
+        path: "createCategory",
+        style: "link",
+        routeName: "Create Categories"
+    }
 
 ]
 export default adminRoutes;

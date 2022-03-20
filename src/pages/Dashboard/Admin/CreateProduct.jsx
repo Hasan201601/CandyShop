@@ -13,6 +13,7 @@ class CreateProduct extends Component {
             category: "",
             price: 0,
             stock: 0,
+            mysterybox: false,
             desc1: "",
             desc2: "",
             desc3: ""
@@ -49,6 +50,12 @@ class CreateProduct extends Component {
     handleThirdDescChange(e) {
         this.setState({ desc3: e.target.value })
     }
+    handleChecked(e) {
+        console.log(e.target.checked);
+        this.setState({
+            mysterybox: e.target.checked
+        })
+    }
     handleSubmit(e) {
         e.preventDefault();
         console.log(this.state)
@@ -58,6 +65,7 @@ class CreateProduct extends Component {
         data.append("img2", this.state.img2)
         data.append("img3", this.state.img3)
         data.append("category", this.state.category)
+        data.append("mysterybox", this.state.mysterybox)
         data.append("price", this.state.price)
         data.append("stock", this.state.stock)
         data.append("desc1", this.state.desc1)
@@ -87,7 +95,7 @@ class CreateProduct extends Component {
                 <Container className='my-5' >
                     <form onSubmit={e => this.handleSubmit(e)}>
                         <Row className='mx-md-5 m-auto'>
-                            <h5>Update Images</h5>
+                            <h5>Upload Images</h5>
                             <div className="form-group  my-3">
                                 <input onChange={e => this.handleFirstImage(e)} accept="images/*" type="file" className="form-control" id="img1" placeholder="image1" />
                             </div>
@@ -99,13 +107,17 @@ class CreateProduct extends Component {
                             </div>
                         </Row>
                         <Row className='align-items-center justify-content-center'>
-                            <h5>Update Product Description</h5>
+                            <h5>Add Product Description</h5>
                             <Col xs={12} md={6}>
                                 <div className="form-group my-3">
                                     <input className="form-control" onChange={e => this.handleProductNameChange(e)} type="text" aria-describedby="emailHelp" placeholder="Enter Product Name" />
                                 </div>
                                 <div className="form-group my-3">
                                     <input onChange={e => this.handleCategoryChange(e)} type="text" className="form-control" placeholder="Enter Category" />
+                                </div>
+                                <div class="form-check w-50 ">
+                                    <input onChange={e => this.handleChecked(e)} type="checkbox" class="form-check-input" id="exampleCheck1" />
+                                    <label class="form-check-label" for="exampleCheck1">Add to Mystery Box</label>
                                 </div>
                                 <div className="form-group my-3">
                                     <input onChange={e => this.handlePriceChange(e)} type="number" className="form-control" placeholder="Enter Price" />
@@ -126,7 +138,7 @@ class CreateProduct extends Component {
                                 </div>
                             </Col>
                         </Row>
-                        <button type="submit" className="btn btn-primary">Update Product</button>
+                        <button type="submit" className="btn btn-primary">Create Product</button>
                     </form>
                 </Container>
             </div>

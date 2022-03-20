@@ -5,9 +5,23 @@ import { chocMysteryData } from '../assets/data/data';
 import { addToCart } from '../redux/CartSlice';
 import { connect } from 'react-redux';
 import withRouter from '../utilities/withRouter';
+import axios from 'axios';
 
 class Mysterybox extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            mysteryProducts: []
+        }
+    }
 
+    componentDidMount() {
+        axios.get("http://localhost:5000/api/products/mystery")
+            .then(res => {
+                console.log(res.data)
+                this.setState({ mysteryProducts: res.data })
+            })
+    }
 
     render() {
         return (

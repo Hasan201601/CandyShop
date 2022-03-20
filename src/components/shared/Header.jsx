@@ -14,6 +14,7 @@ const Header = () => {
     const [component, setComponent] = useState("");
     const cart = useSelector((state) => state.cart);
     const user = useSelector((state) => state.user);
+    console.log(user);
     const isAdmin = user.user?.isAdmin;
     const dispatch = useDispatch()
     const handleShow = (component) => {
@@ -53,7 +54,7 @@ const Header = () => {
                         </NavDropdown >
                         <NavLink to="/" className='mx-2 text-decoration-none text-white'>New Arrivals</NavLink>
                         {
-                            user.user.userName ? <NavLink to={isAdmin ? "/dashboard" : "/userDashboard"} className='mx-2 text-decoration-none text-white'>Dashboard</NavLink> : <></>
+                            user?.user?.userName ? <NavLink to={isAdmin ? "/dashboard" : "/userDashboard"} className='mx-2 text-decoration-none text-white'>Dashboard</NavLink> : <></>
                         }
                     </Nav >
                 </Navbar.Collapse >
@@ -71,7 +72,7 @@ const Header = () => {
                             <i className="bi bi-search"></i> Search
                         </button>
                         <div className='px-3 pointer'>
-                            {user.user.email ?
+                            {user?.user?.email ?
                                 <>
                                     <div onClick={handleLogout} className="btn btn-info">LogOut</div>
                                 </> :

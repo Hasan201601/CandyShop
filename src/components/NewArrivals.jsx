@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
@@ -8,6 +9,19 @@ import { addToCart } from '../redux/CartSlice';
 import withRouter from '../utilities/withRouter';
 
 class Newarrivals extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            latestProducts: []
+        }
+    }
+    componentDidMount() {
+        axios.get("http://localhost:5000/api/products/latest")
+            .then(res => {
+                console.log(res.data)
+                this.setState({ latestProducts: res.data })
+            })
+    }
 
     render() {
         return (

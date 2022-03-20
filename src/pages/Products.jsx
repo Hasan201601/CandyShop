@@ -8,6 +8,7 @@ import { Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { newArrivals } from '../assets/data/data';
 import { addToCart } from '../redux/CartSlice';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 
 class Products extends Component {
@@ -15,7 +16,8 @@ class Products extends Component {
         super(props);
         this.state = {
             filter: 0,
-            sort: 0
+            sort: 0,
+            products: []
 
         }
         this.handleSort = this.handleSort.bind(this);
@@ -25,12 +27,21 @@ class Products extends Component {
             sort: e.target.value
         })
     }
+    componentDidMount() {
+        axios.get(`http://localhost:5000/api/products/${this.props.params.category}`)
+            .then(res => {
+                console.log(res.data);
+                this.setState({
+                    products: res.data
+                })
+            })
+    }
 
 
     render() {
         return (
             <div id="P">
-                {console.log(this.props)}
+                {this.props.params.category}
                 <Header />
                 <Container>
                     <h4>{this.props.category}</h4>

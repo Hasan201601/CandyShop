@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -5,6 +6,22 @@ import { categoryData } from '../assets/data/data';
 
 
 class CategoriesSection extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            products: []
+        }
+    }
+
+    componentDidMount() {
+        axios.get(`http://localhost:5000/api/prodcuts/mysterybox`)
+            .then(res => {
+                console.log(res.data);
+                this.setState({
+                    products: res.data
+                })
+            })
+    }
     render() {
         return (
 
