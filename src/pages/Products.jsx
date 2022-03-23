@@ -35,24 +35,23 @@ class Products extends Component {
         if (this.props.params.category === "all") {
             axios.get(`http://localhost:5000/api/products`)
                 .then(res => {
+                    console.log(res.data);
                     this.setState({
                         isLoading: false,
                         products: res.data,
                         filteredProducts: res.data
                     })
                 })
+            return
         }
         axios.get(`http://localhost:5000/api/products/${this.props.params.category}`)
             .then(res => {
+                console.log(res.data);
                 this.setState({
                     isLoading: false,
                     products: res.data,
                     filteredProducts: res.data
                 })
-            }).catch((err) => {
-                if (err) {
-                    this.setState({ isLoading: false })
-                }
             })
     }
     componentWillUnmount() {
@@ -79,13 +78,15 @@ class Products extends Component {
                 <Header />
                 <Container>
                     <div className='d-flex align-items-center justify-content-space-around mt-5 mb-3'>
-                        <div className='w-25 m-auto'>
-                            <p>Filter</p>
-                            <Form.Select className='text-center' onChange={e => this.handleCategoryChange(e)} name="cars" id="cars">
-                                <option >Filter by Category</option>
-                                {categoryData.map(data => <option value={data.category}>{data.category}</option>)}
-                            </Form.Select>
-                        </div>
+                        {this.props.params.category !== "all" ? "" :
+                            <div className='w-25 m-auto'>
+                                <p>Filter</p>
+                                <Form.Select className='text-center' onChange={e => this.handleCategoryChange(e)} name="cars" id="cars">
+                                    <option >Filter by Category</option>
+                                    {categoryData.map(data => <option value={data.category}>{data.category}</option>)}
+                                </Form.Select>
+                            </div>
+                        }
                         <div className='w-25 m-auto'>
                             <p>Sort</p>
                             <Form.Select className='text-center' onChange={this.handleSort} aria-label="Default select example" >
@@ -109,17 +110,20 @@ class Products extends Component {
                     </Button>}
 
                     <h4>{this.props.category}</h4>
-                    <Row xs={1} md={4} className="g-4 my-3 p-4">
+
+                    {this.state.filteredProducts.length === 0 ? <div className='my-5 '>
+                        <span className='text-white bg-danger p-2 px-3 mt-5 fs-4 rounded'>{"No products Found"}</span>
+                    </div> : <Row xs={1} md={4} className="g-4 my-3 p-4">
                         {this.state.filteredProducts.map((na, index) => (
                             <Col className=' rounded-0'>
-                                <Card className='shadow-lg border-1 rounded-0' bg="transparent" data-bs-toggle="tooltip" data-bs-placement="top" title={na.name} >
-                                    <Link className='text-decoration-none' to={`${na.id}`}>
+                                <Card className='shadow-lg border-1 rounded-0' bg="transparent" data-bs-toggle="tooltip" data-bs-placement="top" title={na.title} >
+                                    <Link className='text-decoration-none' to={`${na._id}`}>
                                         <div className="pointer px-2 pt-2">
-                                            <Card.Img height="240px" className='w-100 rounded-0 shadow-sm cover' variant="top" src={na.img} />
+                                            <Card.Img height="240px" className='w-100 rounded-0 shadow-sm cover' variant="top" src={na.img1} />
                                         </div>
                                     </Link>
                                     <Card.Body className="p-0 text-center">
-                                        <Link className='text-decoration-none' to={`${na.id}`}>
+                                        <Link className='text-decoration-none' to={`${na._id}`}>
                                             <Card.Title className='text-uppercase my-3 fs-6'>{na.name}</Card.Title>
                                             <Card.Text>
                                                 <p className='opacity-75 px-3'><small>{na.desc}</small></p>
@@ -136,7 +140,7 @@ class Products extends Component {
                                 </Card>
                             </Col>
                         ))}
-                    </Row>
+                    </Row>}
 
                 </Container>
                 <Footer />

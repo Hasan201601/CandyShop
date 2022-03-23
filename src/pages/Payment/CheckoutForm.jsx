@@ -4,19 +4,34 @@ import { connect } from 'react-redux';
 import { clearCart } from '../../redux/CartSlice';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 class Checkoutform extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            clientSecret: ''
+            clientSecret: '',
+            processing: false,
+            error: '',
+            success: ''
         }
     }
-
     componentDidMount() {
-        axios.get("http://localhost:5000/api/payment/create-payment-intent", this.props.cart.cartTotalAmount)
-            .then(res => this.setState({ clientSecret: res.data.clientSecret }))
+
+        if (this.props.cart.cartTotalAmount) {
+            fetch('http://localhost:5000/api/payment/create-payment-intent', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({ price: this.props.cart.cartTotalAmount })
+            })
+                .then(res => res.json())
+                .then(data => this.setState({ clientSecret: data.clientSecret }));
+        }
+
     }
+
     handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -40,6 +55,7 @@ class Checkoutform extends Component {
         const user = this.props.user._id;
         console.log(this.props.cart.cartItems)
 
+        this.setState({ processing: true })
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: 'card',
             card,
@@ -48,8 +64,15 @@ class Checkoutform extends Component {
         console.log(email, address, phone);
 
         if (error) {
+            this.setState({
+                error: error.message,
+                success: ''
+            })
             console.log('[error]', error);
         } else {
+            this.setState({
+                error: ""
+            })
             console.log('[PaymentMethod]', paymentMethod);
             const paymentInfo = {
                 email,
@@ -80,26 +103,54 @@ class Checkoutform extends Component {
 
         if (intentError) {
             console.log(intentError);
+            this.setState({
+                error: intentError.message,
+                success: ""
+            })
         }
         else {
+            this.setState({
+                error: "",
+                success: 'Your payment processed successfully.'
+            })
+
 
             // save to database
             const payment = {
+                userId: this.props.user._id,
+                userEmail: this.props.email,
                 amount: paymentIntent.amount,
                 created: paymentIntent.created,
                 last4: paymentMethod.card.last4,
-                transaction: paymentIntent.client_secret.slice('_secret')[0]
+                transaction: paymentIntent.client_secret.slice('_secret')[0],
+                items: this.props.cart.cartItems
             }
+            const responses = await Promise.all(
+                this.props.cart.cartItems.map(async (item) => {
+                    const stock = item.stock - item.cartQuantity
+                    const res = await fetch(`http://localhost:5000/api/products/find/${item._id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'content-type': 'application/json',
+                        },
+                        body: JSON.stringify({ stock: stock })
+                    })
+                })
+            )
+            console.log(responses);
             const url = `http://localhost:5000/api/orders`;
             fetch(url, {
-                method: 'PUT',
+                method: 'POST',
                 headers: {
-                    'content-type': 'application/json'
+                    'content-type': 'application/json',
                 },
                 body: JSON.stringify(payment)
             })
                 .then(res => res.json())
-                .then(data => console.log(data));
+                .then(data => {
+                    console.log(data)
+                    this.props.dispatch(clearCart())
+                });
         }
 
 
@@ -129,9 +180,19 @@ class Checkoutform extends Component {
                         }}
                     />
                 </div>
-                <button className='btn btn-success' type="submit" disabled={!stripe}>
+                <button className='btn btn-success' type="submit" disabled={!stripe || this.state.success}>
                     Pay &euro;{this.props.cart.cartTotalAmount}
                 </button>
+                {
+                    this.state.success && <>
+                        <p>{this.state.success}</p>
+                        <Link className='text-decoration-none' to="/"><button className='btn btn-outline-success'>Go Home</button></Link>
+                    </>
+
+                }
+                {
+                    this.state.error && <p>{this.state.error}</p>
+                }
             </form>
         );
     }

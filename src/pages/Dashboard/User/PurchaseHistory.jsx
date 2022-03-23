@@ -1,8 +1,23 @@
+import axios from 'axios';
 import React, { Component } from 'react';
-import { Container, Row, Table } from 'react-bootstrap';
+import { Container, ListGroup, ListGroupItem, Row, Table } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import { newArrivals } from '../../../assets/data/data';
 
 class Purchase extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            purchased: []
+        }
+    }
+    componentDidMount() {
+        axios.get(`http://localhost:5000/api/orders/purchase/${this.props.user.user._id}`)
+            .then(res => {
+                console.log(res.data);
+                this.setState({ purchased: res.data })
+            })
+    }
     render() {
         return (
             <div>
@@ -12,20 +27,25 @@ class Purchase extends Component {
                     <Table striped responsive>
                         <thead>
                             <tr>
-                                <th>id</th>
-                                <th>item</th>
+                                <th>Order No.</th>
+                                <th>items</th>
                                 <th>Status</th>
                                 <th>Price</th>
                             </tr>
                         </thead>
                         {
-                            newArrivals.slice(0, 5).map((na, index) => <tbody>
-                                <tr>
-                                    <td>{index + 1}</td>
-                                    <td>{na.name}</td>
-                                    <td>pending
+                            this.state.purchased.map((na, index) => <tbody>
+                                <tr className='align-middle'>
+
+                                    <td>{na._id}</td>
+                                    <td>
+                                        <div className='d-flex align-items-center flex-wrap justify-content-center'>
+                                            {na.items.map(item => <span className='bg-transparent'>({item.title},{item.cartQuantity} items)</span>)}
+                                        </div>
                                     </td>
-                                    <td>{na.price}</td>
+                                    <td>{na.status}
+                                    </td>
+                                    <td>&pound;{na.amount / 100}</td>
                                 </tr>
                             </tbody>)
                         }
@@ -37,4 +57,8 @@ class Purchase extends Component {
     }
 }
 
-export default Purchase;
+const mapStateToProps = (state) => ({
+    user: state.user
+})
+
+export default connect(mapStateToProps)(Purchase);

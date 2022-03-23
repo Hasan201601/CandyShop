@@ -17,7 +17,11 @@ class PurchaseHistory extends Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:500/api/orders/${this.props.params.id}`)
+        axios.get(`http://localhost:5000/api/orders/find/${this.props.params.id}`, {
+            headers: {
+                token: `Bearer ${this.props.user.user.accessToken}`
+            }
+        })
             .then(res => {
                 console.log(res.data)
                 this.setState({
@@ -26,7 +30,11 @@ class PurchaseHistory extends Component {
             })
     }
     handleDelete(id) {
-        axios.delete(`http://localhost:500/api/users/find/${id}`)
+        axios.delete(`http://localhost:5000/api/users/find/${id}`, {
+            headers: {
+                token: `Bearer ${this.props.user.user.accessToken}`
+            }
+        })
             .then(res => console.log(res.data))
         this.props.navigate(-1)
     }
@@ -54,18 +62,17 @@ class PurchaseHistory extends Component {
                             </tr>
                         </thead>
                         {
-                            newArrivals.slice(0, 5).map((na, index) => <tbody>
+                            this.state.orders.slice(0, 5).map((order, index) => <tbody>
                                 <tr>
                                     <td>{index + 1}</td>
-                                    <td>{na.name}</td>
-                                    <td>pending
-                                    </td>
-                                    <td>{na.price}</td>
+                                    <td>{order.userId}</td>
+                                    <td>{order.userEmail}</td>
+                                    <td>&euro;{order.amount / 100}</td>
                                 </tr>
                             </tbody>)
                         }
                     </Table>
-                    <button onClick={() => this.handleDelete(this.props.params.id)} className='btn btn-danger my-2'><i className="bi bi-trash"></i> Delete User</button>
+                    <button disabled={this.props.user.user.isAdmin} onClick={() => this.handleDelete(this.props.params.id)} className='btn btn-danger my-2'><i className="bi bi-trash"></i> Delete User</button>
                 </Container>
             </div>
         );

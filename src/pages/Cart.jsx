@@ -190,7 +190,7 @@ class Cart extends Component {
 
                                         <Row className="g-2 align-items-center py-1 my-2 border-4">
                                             <Col xs={3}>
-                                                <img src={item.img} className="rounded border" width="auto" height="70px" alt="" />
+                                                <img src={item.img1} className="rounded border" width="auto" height="70px" alt="" />
                                             </Col>
                                             <Col xs={3}>
                                                 <h6 className=''>{item.name}</h6>
@@ -204,7 +204,7 @@ class Cart extends Component {
                                                 </div>
                                             </Col>
                                             <Col>
-                                                <h5>${item.cartQuantity * item.price}</h5>
+                                                <h5>&euro;{item.cartQuantity * item.price}</h5>
                                             </Col>
                                         </Row>
                                     </Col>

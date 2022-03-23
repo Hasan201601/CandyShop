@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { Card, Col, Container, Row, Table } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import { Outlet } from 'react-router';
 import { newArrivals } from '../../../assets/data/data';
 
@@ -8,16 +9,20 @@ class Dashboardhome extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            orders: []
+            recentOrders: []
         }
     }
 
     componentDidMount() {
-        axios.get("http://localhost:5000/orders")
+        axios.get("http://localhost:5000/api/orders/recent", {
+            headers: {
+                token: `Bearer ${this.props.user.user.accessToken}`
+            }
+        })
             .then(res => {
                 console.log(res.data)
                 this.setState({
-                    orders: res.data
+                    recentOrders: res.data
                 })
             })
     }
@@ -70,12 +75,12 @@ class Dashboardhome extends Component {
                             </tr>
                         </thead>
                         {
-                            newArrivals.map((na, index) => <tbody>
+                            this.state.recentOrders.map((na, index) => <tbody>
                                 <tr>
-                                    <td>{index + 1}</td>
-                                    <td>{na.name}</td>
-                                    <td>Otto</td>
-                                    <td>{na.price}</td>
+                                    <td>{na._id}</td>
+                                    <td>{na?.userId}</td>
+                                    <td>{na.items.map(item => <span className='bg-transparent'>({item.title},{item.cartQuantity} items)</span>)}</td>
+                                    <td>&euro;{na.amount / 100}</td>
                                 </tr>
                             </tbody>)
                         }
@@ -86,4 +91,7 @@ class Dashboardhome extends Component {
     }
 }
 
-export default Dashboardhome;
+const mapStateToProps = (state) => ({
+    user: state.user
+})
+export default connect(mapStateToProps)(Dashboardhome);

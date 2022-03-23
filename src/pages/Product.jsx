@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
@@ -8,19 +9,28 @@ import { addToCart } from '../redux/CartSlice';
 import withRouter from '../utilities/withRouter';
 
 class Product extends Component {
-    componentDidMount() {
-        window.scrollTo(0, 140)
-    }
+
     constructor(props) {
         super(props);
         this.state = {
             image: null,
-            quantity: 0
+            quantity: 0,
+            product: []
         }
         this.handleImageChange = this.handleImageChange.bind(this);
         this.handleIncrease = this.handleIncrease.bind(this);
         this.handleDecrease = this.handleDecrease.bind(this);
         this.handleAddToCart = this.handleAddToCart.bind(this);
+    }
+
+
+    componentDidMount() {
+        window.scrollTo(0, 140)
+        axios.get(`http://localhost:5000/api/products/find/${this.props.params.productId}`)
+            .then(res => {
+                console.log(res.data);
+                this.setState({ product: res.data })
+            })
     }
     handleImageChange(img) {
         this.setState({
@@ -52,7 +62,6 @@ class Product extends Component {
         console.log(this.props);
     }
     render() {
-        const product = newArrivals.find(pd => pd.id == this.props.params.productId)
         return (
             <div >
                 <Header />
@@ -60,29 +69,32 @@ class Product extends Component {
                     <Row className='g-3 align-items-center justify-content-center'>
                         <Col md={6}>
                             <div className='my-2 border-3'>
-                                <img src={this.state.image ? this.state.image : product.img} className="w-75 " alt="" />
+                                <img src={this.state.image ? this.state.image : this.state.product.img1} className="w-75 " alt="" />
                             </div>
                             <Row className='g-md-4 g-2'>
                                 <Col xs={4} md={4} >
                                     <Card className='border-3 shadow h-100 p-1 pointer'>
-                                        <img src={product.img} className="w-100" alt="" onClick={() => this.handleImageChange(product.img)} />
+                                        <img src={this.state.product.img1} className="w-100" alt="" onClick={() => this.handleImageChange(this.state.product.img1)} />
                                     </Card>
                                 </Col>
                                 <Col xs={4} md={4}>
                                     <Card className='border-3 shadow h-100 p-1 pointer'>
-                                        <img src={product.img2} className="w-100" alt="" onClick={() => this.handleImageChange(product.img2)} />
+                                        <img src={this.state.product.img2} className="w-100" alt="" onClick={() => this.handleImageChange(this.state.product.img2)} />
                                     </Card>
                                 </Col>
                                 <Col xs={4} md={4}>
                                     <Card className='border-3 shadow h-100 p-1 pointer'>
-                                        <img src={product.img3} className="w-100" alt="" onClick={() => this.handleImageChange(product.img3)} />
+                                        <img src={this.state.product.img3} className="w-100" alt="" onClick={() => this.handleImageChange(this.state.product.img3)} />
                                     </Card>
                                 </Col>
                             </Row>
                         </Col>
                         <Col md={6} className="ps-4">
-                            <h1>{product.name}</h1>
-                            <h6>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, nihil? Officia officiis consequuntur aliquam eum, voluptates temporibus dolorum quam ipsum voluptate id quo nesciunt sit asperiores voluptatem fuga atque molestias perferendis! Cumque iste, et reiciendis itaque voluptas libero, accusamus est quia nihil ullam dicta soluta pariatur maxime quis omnis iusto.</h6>
+                            <h1>{this.state.product.title}</h1>
+                            <h6>{this.state.product.desc1}</h6>
+                            <h6>{this.state.product.desc2}</h6>
+                            <h6>{this.state.product.desc3}</h6>
+                            <p className=' my-3 '><small>{this.state.product.stock} available in stock</small></p>
                             <br />
                             <p>Quantity</p>
                             <div className='d-flex align-items-center justify-content-center'>
@@ -90,7 +102,7 @@ class Product extends Component {
                                 <span className='mx-3 fs-4'>{this.state.quantity}</span>
                                 <button className='btn btn-danger fs-5 px-3' onClick={this.handleIncrease}>+</button>
                             </div>
-                            <button disabled={this.state.quantity ? false : true} onClick={() => this.handleAddToCart(product)} className='btn btn-lg btn-info text-white  my-5'>ADD TO CART</button>
+                            <button disabled={this.state.quantity ? false : true} onClick={() => this.handleAddToCart(this.state.product)} className='btn btn-lg btn-info text-white  my-5'>ADD TO CART</button>
                         </Col>
                     </Row>
                 </Container>

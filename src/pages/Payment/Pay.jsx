@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import { Elements } from "@stripe/react-stripe-js"
 import InjectedCheckoutForm from './InjectedCheckoutForm';
 import { loadStripe } from '@stripe/stripe-js';
+import axios from 'axios';
+import { connect } from 'react-redux';
 
 const stripePromise = loadStripe('pk_test_51KQZwpItc42Fo0RyZVjt3bvBX7ZrRJdEAEIeLpmewHMVxEnxZafBe9NRz5RIwhr51EPGPXMwp7W9wfkeGqveFEKg00KYI2WkwO');
 
+
 class Pay extends Component {
+
     render() {
         return (
             <div className='w-100 '>
@@ -21,4 +25,7 @@ class Pay extends Component {
     }
 }
 
-export default Pay;
+const mapStateToProps = (state) => ({
+    cart: state.cart
+})
+export default connect(mapStateToProps)(Pay);

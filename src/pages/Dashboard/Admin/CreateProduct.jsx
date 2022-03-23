@@ -120,9 +120,9 @@ class CreateProduct extends Component {
                                     <input className="form-control" onChange={e => this.handleProductNameChange(e)} type="text" aria-describedby="emailHelp" placeholder="Enter Product Name" />
                                 </div>
                                 <div className=' rounded text-start'>
+                                    <label htmlFor="cars"> Chose Category</label>
                                     <Form.Select onChange={e => this.handleCategoryChange(e)} name="cars" id="cars">
-                                        <option value="volvo">Chose Category</option>
-                                        {categoryData.map(data => <option value={data.category}>{data.category}</option>)}
+                                        {categoryData.slice(0, -1).map(data => <option value={data.link}>{data.category}</option>)}
                                     </Form.Select>
                                 </div>
                                 <div class="form-check w-50 mt-3">

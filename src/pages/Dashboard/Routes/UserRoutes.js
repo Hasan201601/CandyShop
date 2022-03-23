@@ -5,11 +5,6 @@ const userRoutes = [
         routeName: "Purchase History"
     },
     {
-        path: "orders",
-        style: "link",
-        routeName: "My Orders"
-    },
-    {
         path: "updateProfile",
         style: "link",
         routeName: "Update Profile"

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { Container, Table } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { newArrivals } from '../../../assets/data/data';
 
@@ -22,12 +23,16 @@ class AllProducts extends Component {
             })
     }
     handleDelete(id) {
-        axios.delete(`http://localhost:5000/api/products/${id}`)
-            .then(res => console.log(res.data))
-        const remainingProducts = this.state.products.filter(pd => pd.id !== id)
+        const remainingProducts = this.state.products.filter(pd => pd._id !== id)
         this.setState({
             products: remainingProducts
         })
+        axios.delete(`http://localhost:5000/api/products/${id}`, {
+            headers: {
+                token: `Bearer ${this.props.user.user.accessToken}`
+            }
+        })
+            .then(res => console.log(res.data))
     }
     handleChange(e) {
         const products = this.state.products.filter(pd => pd.includes(e.target.value))
@@ -63,17 +68,17 @@ class AllProducts extends Component {
                             </tr>
                         </thead>
                         {
-                            newArrivals.map((na, index) => <tbody>
+                            this.state.products.map((na, index) => <tbody>
                                 <tr>
                                     <td>{index + 1}</td>
-                                    <td>{na.name}</td>
-                                    <td>Otto</td>
-                                    <td>$35</td>
+                                    <td>{na.title}</td>
+                                    <td>{na.category}</td>
+                                    <td>&euro;{na.price}</td>
                                     <td>
                                         <span className='mx-2'>
                                             <Link className='text-decoration-none pointer text-dark' to={`${na.id}`}><i className="bi bi-pencil"></i>Edit</Link>
                                         </span>
-                                        <span className='pointer text-dark' onClick={() => this.handleDelete(na.id)}>
+                                        <span className='pointer text-dark' onClick={() => this.handleDelete(na._id)}>
                                             <i className="bi bi-trash pointer text-dark"></i>Delete
                                         </span>
                                     </td>
@@ -87,4 +92,7 @@ class AllProducts extends Component {
     }
 }
 
-export default AllProducts;
+const mapStateToProps = (state) => ({
+    user: state.user
+})
+export default connect(mapStateToProps)(AllProducts);
