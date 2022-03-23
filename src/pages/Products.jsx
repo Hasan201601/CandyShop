@@ -25,17 +25,23 @@ class Products extends Component {
         this.handleSort = this.handleSort.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
     }
-    handleSort(e) {
-        this.setState({
-            sort: e.target.value
-        })
-    }
+
     componentDidMount() {
         this.setState({ isLoading: true })
         if (this.props.params.category === "all") {
             axios.get(`http://localhost:5000/api/products`)
                 .then(res => {
-                    console.log(res.data);
+                    this.setState({
+                        isLoading: false,
+                        products: res.data,
+                        filteredProducts: res.data
+                    })
+                })
+            return
+        }
+        else if (this.props.params.category === "mysterybox") {
+            axios.get("http://localhost:5000/api/products/mystery")
+                .then(res => {
                     this.setState({
                         isLoading: false,
                         products: res.data,
@@ -46,7 +52,6 @@ class Products extends Component {
         }
         axios.get(`http://localhost:5000/api/products/${this.props.params.category}`)
             .then(res => {
-                console.log(res.data);
                 this.setState({
                     isLoading: false,
                     products: res.data,
@@ -60,16 +65,33 @@ class Products extends Component {
         };
     }
     handleCategoryChange(e) {
-        console.log(this.state.products);
-        console.log(e.target.value)
-        if (e.target.value === "All Products") {
+        if (e.target.value === "all") {
             this.setState({ filteredProducts: this.state.products })
         } else {
             const filteredProducts = this.state.products.filter(pd => pd.category === e.target.value)
-            console.log(filteredProducts)
             this.setState({ filteredProducts: filteredProducts })
         }
 
+    }
+    handleSort(e) {
+        console.log(e.target.value);
+        if (e.target.value === "newest") {
+            const sortedProducts = this.state.products.sort((a, b) => a.createdAt - b.createdAt)
+            console.log(sortedProducts);
+            this.setState({
+                filteredProducts: sortedProducts
+            })
+        } else if (e.target.value === "asc") {
+            const sortedProducts = this.state.products.sort((a, b) => a.price - b.price)
+            this.setState({
+                filteredProducts: sortedProducts
+            })
+        } else {
+            const sortedProducts = this.state.products.sort((a, b) => b.price - a.price)
+            this.setState({
+                filteredProducts: sortedProducts
+            })
+        }
     }
 
     render() {
@@ -78,22 +100,19 @@ class Products extends Component {
                 <Header />
                 <Container>
                     <div className='d-flex align-items-center justify-content-space-around mt-5 mb-3'>
-                        {this.props.params.category !== "all" ? "" :
-                            <div className='w-25 m-auto'>
-                                <p>Filter</p>
-                                <Form.Select className='text-center' onChange={e => this.handleCategoryChange(e)} name="cars" id="cars">
-                                    <option >Filter by Category</option>
-                                    {categoryData.map(data => <option value={data.category}>{data.category}</option>)}
-                                </Form.Select>
-                            </div>
-                        }
+
+                        <div className='w-25 m-auto'>
+                            <p>Filter</p>
+                            <Form.Select className='text-center' onChange={e => this.handleCategoryChange(e)} name="cars" id="cars">
+                                {categoryData.slice(0, -1).map(data => <option value={data.link}>{data.category}</option>)}
+                            </Form.Select>
+                        </div>
                         <div className='w-25 m-auto'>
                             <p>Sort</p>
                             <Form.Select className='text-center' onChange={this.handleSort} aria-label="Default select example" >
-                                <option>Featured</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option value="newest">Newest</option>
+                                <option value="asc">Price (asc)</option>
+                                <option value="desc">Price (desc)</option>
                             </Form.Select>
                         </div>
                     </div>
@@ -131,7 +150,7 @@ class Products extends Component {
                                             </Card.Text>
                                         </Link>
                                         <div className='text-center'>
-                                            <button onClick={() => {
+                                            <button disabled={na.stock <= 0} onClick={() => {
                                                 this.props.dispatch(addToCart(na))
                                                 this.props.navigate('/cart')
                                             }} className='rounded-0 py-2 text-uppercase w-100 btn btn-danger '>Add To Cart</button>

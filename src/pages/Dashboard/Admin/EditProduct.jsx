@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Form, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { categoryData } from '../../../assets/data/data';
 import withRouter from '../../../utilities/withRouter';
 
 class Editproduct extends Component {
@@ -118,27 +119,34 @@ class Editproduct extends Component {
                             <h5>Update Product Description</h5>
                             <Col xs={12} md={6}>
                                 <div className="form-group my-3">
-                                    <input className="form-control" onChange={e => this.handleProductNameChange(e)} type="text" aria-describedby="emailHelp" placeholder="Enter Product Name" />
+                                    <input className="form-control" onChange={e => this.handleProductNameChange(e)} type="text" aria-describedby="emailHelp" placeholder="Change Product Name" />
+                                </div>
+                                <div className=' rounded text-start'>
+                                    <label htmlFor="cars"> Change Category</label>
+                                    <Form.Select onChange={e => this.handleCategoryChange(e)} name="cars" id="cars">
+                                        {categoryData.slice(0, -1).map(data => <option value={data.link}>{data.category}</option>)}
+                                    </Form.Select>
+                                </div>
+                                <div class="form-check w-50 mt-3">
+                                    <input onChange={e => this.handleChecked(e)} type="checkbox" class="form-check-input" id="exampleCheck1" />
+                                    <label class="form-check-label" for="exampleCheck1">Add to Mystery Box</label>
                                 </div>
                                 <div className="form-group my-3">
-                                    <input onChange={e => this.handleCategoryChange(e)} type="text" className="form-control" placeholder="Enter Category" />
+                                    <input onChange={e => this.handlePriceChange(e)} type="number" className="form-control" placeholder="Change Price" />
                                 </div>
                                 <div className="form-group my-3">
-                                    <input onChange={e => this.handlePriceChange(e)} type="number" className="form-control" placeholder="Enter Price" />
-                                </div>
-                                <div className="form-group my-3">
-                                    <input className="form-control" onChange={e => this.handleStockChange(e)} type="number" placeholder="Available Stock" />
+                                    <input className="form-control" onChange={e => this.handleStockChange(e)} type="number" placeholder="Change Available Stock" />
                                 </div>
                             </Col>
                             <Col xs={12} md={6}>
                                 <div className="form-group my-3">
-                                    <textarea onChange={e => this.handleFirstDescChange(e)} type="text" placeholder='description1' className="form-control" />
+                                    <textarea onChange={e => this.handleFirstDescChange(e)} type="text" placeholder='change description1' className="form-control" />
                                 </div>
                                 <div className="form-group my-3">
-                                    <textarea onChange={e => this.handleSecondDescChange(e)} type="text" placeholder='description2' className="form-control" />
+                                    <textarea onChange={e => this.handleSecondDescChange(e)} type="text" placeholder='change description2' className="form-control" />
                                 </div>
                                 <div className="form-group my-3">
-                                    <textarea onChange={e => this.handleThirdDescChange(e)} type="text" placeholder='description3' className="form-control" />
+                                    <textarea onChange={e => this.handleThirdDescChange(e)} type="text" placeholder='change description3' className="form-control" />
                                 </div>
                             </Col>
                         </Row>

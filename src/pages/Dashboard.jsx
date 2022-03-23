@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Container, Nav, Navbar, NavDropdown, Offcanvas } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link, Outlet } from 'react-router-dom';
-import profile from "../assets/images/customer.jpg"
+import profile from "../assets/images/Profile.png"
 import { setUser } from '../redux/UserSlice';
 import withRouter from '../utilities/withRouter';
 import Thelayout from './Dashboard/TheLayout';
@@ -53,7 +53,7 @@ class Dashboard extends Component {
                             onHide={this.handleClose}
                         >
                             <Offcanvas.Header closeButton>
-                                <Offcanvas.Title id="offcanvasNavbarLabel"><img src={profile} alt="" width="70px" height="70px" className='rounded-circle' />
+                                <Offcanvas.Title id="offcanvasNavbarLabel"><img src={this.props.user.user.profileImage ? this.props.user.user.profileImage : profile} alt="" width="70px" height="70px" className='rounded-circle' />
                                     <div></div></Offcanvas.Title>
                             </Offcanvas.Header>
                             <Offcanvas.Body>

@@ -5,7 +5,8 @@ import 'react-toastify/dist/ReactToastify.css';
 const initialState = {
     cartItems: [],
     cartTotalQuantity: 0,
-    cartTotalAmount: 0
+    cartTotalAmount: 0,
+    error: ""
 }
 
 const cartSlice = createSlice({
@@ -17,14 +18,23 @@ const cartSlice = createSlice({
             const existingIndex = state.cartItems.findIndex((item) => item._id === action.payload._id)
 
             if (existingIndex >= 0) {
-                state.cartItems[existingIndex] = {
-                    ...state.cartItems[existingIndex],
-                    cartQuantity: state.cartItems[existingIndex].cartQuantity + 1
-                };
-                toast.info(`Increased Product quantity`, {
-                    position: "bottom-left",
-                    autoClose: 1500
-                });
+                if (state.cartItems[existingIndex].stock - action.payload.cartQuantity > 0) {
+                    state.cartItems[existingIndex] = {
+                        ...state.cartItems[existingIndex],
+                        cartQuantity: state.cartItems[existingIndex].cartQuantity + 1
+                    }
+                    toast.info("Product added to cart", {
+                        position: "bottom-left",
+                        autoClose: 1500
+                    })
+                } else {
+                    state.error = "Stock Out! Can't increase quantity."
+                    toast.error("Stock Out! Can't increase quantity.", {
+                        position: "bottom-left",
+                        autoClose: 1500
+                    })
+                }
+
             } else {
                 if (action.payload.addedQuantity) {
                     let tempProductItem = {

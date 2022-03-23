@@ -57,7 +57,7 @@ class Users extends Component {
                                     <td>{na.userName}</td>
                                     <td>{na.email}</td>
                                     <td><Link className='text-decoration-none' to={`${na._id}`}>Purchase History</Link></td>
-                                    <td ><button className='btn' disabled={this.props.user.user.isAdmin} onClick={() => this.handleDelete(na._id)}><i className="bi bi-trash pointer text-dark"></i> Delete Account</button> </td>
+                                    <td ><button className='btn' disabled={na.isAdmin} onClick={() => this.handleDelete(na._id)}><i className="bi bi-trash pointer text-dark"></i> Delete Account</button> </td>
                                 </tr>
                             </tbody>)
                         }

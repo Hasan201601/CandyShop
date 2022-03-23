@@ -6,6 +6,7 @@ import { addToCart } from '../redux/CartSlice';
 import { connect } from 'react-redux';
 import withRouter from '../utilities/withRouter';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 class Mysterybox extends Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class Mysterybox extends Component {
 
     componentDidMount() {
         this.setState({ isLoading: true })
-        axios.get("http://localhost:5000/api/products/mystery")
+        axios.get("http://localhost:5000/api/products/mystery/recent")
             .then(res => {
                 this.setState({ isLoading: false })
                 console.log(res.data)
@@ -88,7 +89,9 @@ class Mysterybox extends Component {
                     }
                 </Container>
 
-                <button className='btn btn-lg btn-info fw-bold fs-6 text-white my-5 rounded-pill' onClick={this.handleClick}>View All</button>
+                <Link to="/products/mysterybox">
+                    <button className='btn btn-lg btn-info fw-bold fs-6 text-white my-5 rounded-pill' onClick={this.handleClick}>View All</button>
+                </Link>
             </div>
         );
     }

@@ -76,7 +76,7 @@ class AllProducts extends Component {
                                     <td>&euro;{na.price}</td>
                                     <td>
                                         <span className='mx-2'>
-                                            <Link className='text-decoration-none pointer text-dark' to={`${na.id}`}><i className="bi bi-pencil"></i>Edit</Link>
+                                            <Link className='text-decoration-none pointer text-dark' to={`${na._id}`}><i className="bi bi-pencil"></i>Edit</Link>
                                         </span>
                                         <span className='pointer text-dark' onClick={() => this.handleDelete(na._id)}>
                                             <i className="bi bi-trash pointer text-dark"></i>Delete

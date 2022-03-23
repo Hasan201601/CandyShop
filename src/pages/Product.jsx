@@ -102,12 +102,12 @@ class Product extends Component {
                                 <span className='mx-3 fs-4'>{this.state.quantity}</span>
                                 <button className='btn btn-danger fs-5 px-3' onClick={this.handleIncrease}>+</button>
                             </div>
-                            <button disabled={this.state.quantity ? false : true} onClick={() => this.handleAddToCart(this.state.product)} className='btn btn-lg btn-info text-white  my-5'>ADD TO CART</button>
+                            <button disabled={this.state.product.stock - this.state.quantity < 0 ? true : false} onClick={() => this.handleAddToCart(this.state.product)} className='btn btn-lg btn-info text-white  my-5'>ADD TO CART</button>
                         </Col>
                     </Row>
-                </Container>
+                </Container >
                 <Footer />
-            </div>
+            </div >
         );
     }
 }
