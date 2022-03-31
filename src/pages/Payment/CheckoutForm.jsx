@@ -5,6 +5,7 @@ import { clearCart } from '../../redux/CartSlice';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../../assets/data/api';
 
 class Checkoutform extends Component {
     constructor(props) {
@@ -19,7 +20,7 @@ class Checkoutform extends Component {
     componentDidMount() {
 
         if (this.props.cart.cartTotalAmount) {
-            fetch('http://localhost:5000/api/payment/create-payment-intent', {
+            fetch(baseUrl + `/api/payment/create-payment-intent`, {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
@@ -83,7 +84,7 @@ class Checkoutform extends Component {
                 user: user,
                 orderedItem: this.props.cart.cartItems
             }
-            axios.post("http://localhost:5000/api/payment/create-payment-intent", paymentInfo)
+            axios.post(baseUrl + `/api/payment/create-payment-intent`, paymentInfo)
                 .then(res => console.log(res.data))
         }
         // payment intent
@@ -128,7 +129,7 @@ class Checkoutform extends Component {
             const responses = await Promise.all(
                 this.props.cart.cartItems.map(async (item) => {
                     const stock = item.stock - item.cartQuantity
-                    const res = await fetch(`http://localhost:5000/api/products/find/${item._id}`, {
+                    const res = await fetch(baseUrl + `/api/products/find/${item._id}`, {
                         method: 'PUT',
                         headers: {
                             'content-type': 'application/json',
@@ -138,7 +139,7 @@ class Checkoutform extends Component {
                 })
             )
             console.log(responses);
-            const url = `http://localhost:5000/api/orders`;
+            const url = baseUrl + `/api/orders`;
             fetch(url, {
                 method: 'POST',
                 headers: {

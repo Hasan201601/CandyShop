@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Row, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { baseUrl } from '../../../assets/data/api';
 import { newArrivals } from '../../../assets/data/data';
 
 class Purchase extends Component {
@@ -12,7 +13,7 @@ class Purchase extends Component {
         }
     }
     componentDidMount() {
-        axios.get(`http://localhost:5000/api/orders/purchase/${this.props.user.user._id}`)
+        axios.get(baseUrl + `/api/orders/purchase/${this.props.user.user._id}`)
             .then(res => {
                 console.log(res.data);
                 this.setState({ purchased: res.data })

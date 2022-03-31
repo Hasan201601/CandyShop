@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { baseUrl } from '../../../assets/data/api';
 import { categoryData } from '../../../assets/data/data';
 import withRouter from '../../../utilities/withRouter';
 
@@ -81,7 +82,7 @@ class Editproduct extends Component {
         }
         const id = this.props.params.id;
         const token = this.props.user.user.accessToken
-        fetch(`http://localhost:5000/api/products/${id}`, {
+        fetch(baseUrl + `/api/products/${id}`, {
             method: 'PUT',
             body: data,
             headers: {

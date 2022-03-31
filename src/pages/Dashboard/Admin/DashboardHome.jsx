@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Card, Col, Container, Row, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Outlet } from 'react-router';
+import { baseUrl } from '../../../assets/data/api';
 import { newArrivals } from '../../../assets/data/data';
 
 class Dashboardhome extends Component {
@@ -14,7 +15,7 @@ class Dashboardhome extends Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:5000/api/orders/recent", {
+        axios.get(`${baseUrl}/api/orders/recent`, {
             headers: {
                 token: `Bearer ${this.props.user.user.accessToken}`
             }

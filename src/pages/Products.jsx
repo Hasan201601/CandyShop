@@ -9,6 +9,7 @@ import { categoryData, newArrivals } from '../assets/data/data';
 import { addToCart } from '../redux/CartSlice';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { baseUrl } from '../assets/data/api';
 
 
 class Products extends Component {
@@ -29,7 +30,7 @@ class Products extends Component {
     componentDidMount() {
         this.setState({ isLoading: true })
         if (this.props.params.category === "all") {
-            axios.get(`http://localhost:5000/api/products`)
+            axios.get(baseUrl + `/api/products`)
                 .then(res => {
                     this.setState({
                         isLoading: false,
@@ -40,7 +41,7 @@ class Products extends Component {
             return
         }
         else if (this.props.params.category === "mysterybox") {
-            axios.get("http://localhost:5000/api/products/mystery")
+            axios.get(baseUrl + `/api/products/mystery`)
                 .then(res => {
                     this.setState({
                         isLoading: false,
@@ -50,7 +51,7 @@ class Products extends Component {
                 })
             return
         }
-        axios.get(`http://localhost:5000/api/products/${this.props.params.category}`)
+        axios.get(baseUrl + `/api/products/${this.props.params.category}`)
             .then(res => {
                 this.setState({
                     isLoading: false,

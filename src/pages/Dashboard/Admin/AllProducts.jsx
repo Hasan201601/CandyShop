@@ -3,47 +3,51 @@ import React, { Component } from 'react';
 import { Container, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../../../assets/data/api';
 import { newArrivals } from '../../../assets/data/data';
 
 class AllProducts extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            products: []
+            products: [],
+            filteredProducts: []
         }
         this.handleDelete = this.handleDelete.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidMount() {
-        axios.get("http://localhost:5000/api/products")
+        axios.get(baseUrl + "/api/products")
             .then(res => {
                 console.log(res.data);
-                this.setState({ products: res.data })
+                this.setState({ products: res.data, filteredProducts: res.data })
             })
     }
     handleDelete(id) {
-        const remainingProducts = this.state.products.filter(pd => pd._id !== id)
+        const remainingProducts = this.state.filteredProducts.filter(pd => pd._id !== id)
         this.setState({
-            products: remainingProducts
+            filteredProducts: remainingProducts
         })
-        axios.delete(`http://localhost:5000/api/products/${id}`, {
+        axios.delete(baseUrl + `/api/products/${id}`, {
             headers: {
                 token: `Bearer ${this.props.user.user.accessToken}`
             }
         })
-            .then(res => console.log(res.data))
+            .then(res => console.log(res.data),)
     }
     handleChange(e) {
-        const products = this.state.products.filter(pd => pd.includes(e.target.value))
+        console.log(e.target.value);
+        console.log(this.state.filteredProducts);
+        const products = this.state.products.filter(pd => pd.title.toLowerCase().includes(e.target.value.toLowerCase()))
         this.setState({
-            products
+            filteredProducts: products
         })
     }
     handleSubmit(e) {
-        const products = this.state.products.filter(pd => pd.includes(e.target.value))
+        const products = this.state.filteredProducts.filter(pd => pd.title.includes(e.target.value))
         this.setState({
-            products
+            filteredProducts: products
         })
     }
 
@@ -68,7 +72,7 @@ class AllProducts extends Component {
                             </tr>
                         </thead>
                         {
-                            this.state.products.map((na, index) => <tbody>
+                            this.state.filteredProducts.map((na, index) => <tbody>
                                 <tr>
                                     <td>{index + 1}</td>
                                     <td>{na.title}</td>

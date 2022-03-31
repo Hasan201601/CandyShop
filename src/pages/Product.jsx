@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { baseUrl } from '../assets/data/api';
 import { newArrivals } from '../assets/data/data';
 import Footer from '../components/shared/Footer';
 import Header from '../components/shared/Header';
@@ -26,7 +27,7 @@ class Product extends Component {
 
     componentDidMount() {
         window.scrollTo(0, 140)
-        axios.get(`http://localhost:5000/api/products/find/${this.props.params.productId}`)
+        axios.get(baseUrl + `/api/products/find/${this.props.params.productId}`)
             .then(res => {
                 console.log(res.data);
                 this.setState({ product: res.data })

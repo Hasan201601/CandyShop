@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Container, Dropdown, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../../../assets/data/api';
 import { newArrivals } from '../../../assets/data/data';
 
 class Orders extends Component {
@@ -15,7 +16,7 @@ class Orders extends Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:5000/api/orders", {
+        axios.get(baseUrl + `/api/orders`, {
             headers: {
                 token: `Bearer ${this.props.user.user.accessToken}`
             }
@@ -29,7 +30,7 @@ class Orders extends Component {
     }
     handleChangeStatus(e, id) {
         e.preventDefault()
-        axios.put(`http://localhost:5000/api/orders/${id}`, { status: this.state.status }, {
+        axios.put(baseUrl + `/api/orders/${id}`, { status: this.state.status }, {
             headers: {
                 token: `Bearer ${this.props.user.user.accessToken}`
             }
@@ -39,7 +40,7 @@ class Orders extends Component {
     handleDelete(id) {
         const remainingOrders = this.state.orders.filter(order => order._id !== id)
         this.setState({ orders: remainingOrders })
-        axios.delete(`http://localhost:5000/api/orders/${id}`, {
+        axios.delete(baseUrl + `/api/orders/${id}`, {
             headers: {
                 token: `Bearer ${this.props.user.user.accessToken}`
             }

@@ -6,6 +6,7 @@ import avatar from "../../../assets/images/avatar.png"
 import withRouter from '../../../utilities/withRouter';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { baseUrl } from '../../../assets/data/api';
 
 class PurchaseHistory extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ class PurchaseHistory extends Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:5000/api/orders/find/${this.props.params.id}`, {
+        axios.get(baseUrl + `/api/orders/find/${this.props.params.id}`, {
             headers: {
                 token: `Bearer ${this.props.user.user.accessToken}`
             }
@@ -30,7 +31,7 @@ class PurchaseHistory extends Component {
             })
     }
     handleDelete(id) {
-        axios.delete(`http://localhost:5000/api/users/find/${id}`, {
+        axios.delete(baseUrl + `/api/users/find/${id}`, {
             headers: {
                 token: `Bearer ${this.props.user.user.accessToken}`
             }

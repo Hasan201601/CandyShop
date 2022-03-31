@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Col, Container, FormControl, InputGroup, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
+import { baseUrl } from '../../../assets/data/api';
 import withRouter from '../../../utilities/withRouter';
 
 class UpdateProfile extends Component {
@@ -46,7 +47,7 @@ class UpdateProfile extends Component {
         }
         const id = this.props.user.user._id;
         const token = this.props.user.user.accessToken
-        axios.put(`http://localhost:5000/api/users/${id}`, data)
+        axios.put(baseUrl + `/api/users/${id}`, data)
             .then(result => {
                 toast.success("Account Updated Successfully", {
                     position: "bottom-left"

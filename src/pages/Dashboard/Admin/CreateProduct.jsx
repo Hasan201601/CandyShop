@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Col, Container, Dropdown, Form, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
+import { baseUrl } from '../../../assets/data/api';
 import { categoryData } from '../../../assets/data/data';
 
 class CreateProduct extends Component {
@@ -79,8 +80,9 @@ class CreateProduct extends Component {
             desc2: this.state.desc2,
             desc3: this.state.desc3
         }
+        console.log();
         const token = this.props.user.user.accessToken
-        axios.post('http://localhost:5000/api/products', data,
+        axios.post(baseUrl + `/api/products`, data,
             {
                 headers: {
                     token: `Bearer ${token}`

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Container, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../../../assets/data/api';
 import { newArrivals } from '../../../assets/data/data';
 
 class Users extends Component {
@@ -15,7 +16,7 @@ class Users extends Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:5000/api/users", {
+        axios.get(baseUrl + `/api/users`, {
             headers: {
                 token: `Bearer ${this.props.user.user.accessToken}`
             }
@@ -26,7 +27,7 @@ class Users extends Component {
             })
     }
     handleDelete(id) {
-        axios.delete(`http://localhost:5000/api/users/${id}`, {
+        axios.delete(baseUrl + `/api/users/${id}`, {
             headers: {
                 token: `Bearer ${this.props.user.user.accessToken}`
             }

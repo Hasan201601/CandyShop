@@ -1,20 +1,22 @@
 import axios from "axios";
 import { connect } from "react-redux";
+import { baseUrl } from "../assets/data/api";
 
 
 
 const Auth = () => {
 
     const userCreateAccount = (email, password, name) => {
-        console.log(email, password);
-        return axios.post("http://localhost:5000/api/auth/register", {
+        console.log(baseUrl + "/api/auth/register");
+        return axios.post(baseUrl + "/api/auth/register", {
             userName: name,
             email,
             password
         })
     }
     const userLogin = (email, password) => {
-        return axios.post("http://localhost:5000/api/auth/login", {
+        console.log(baseUrl + "/api/auth/register");
+        return axios.post(baseUrl + "/api/auth/login", {
             email,
             password
         })

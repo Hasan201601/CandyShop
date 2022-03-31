@@ -1,5 +1,7 @@
+import { FpxBankElement } from '@stripe/react-stripe-js';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { baseUrl } from '../../../assets/data/api';
 
 class CreateCategory extends Component {
     constructor(props) {
@@ -31,7 +33,8 @@ class CreateCategory extends Component {
             image: this.state.image
         }
 
-        fetch('http://localhost:5000/api/categories/', {
+        console.log(baseUrl + `/api/categories/`);
+        fetch(`${baseUrl}/api/categories/`, {
             method: 'POST',
             body: data,
             headers: {
