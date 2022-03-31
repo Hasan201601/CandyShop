@@ -68,7 +68,7 @@ class Newarrivals extends Component {
                                                     <Card.Title className='text-uppercase my-3 fs-6'>{pd.title}</Card.Title>
                                                     {pd.stock > 0 ? <Card.Text className=' my-3 '><small>{pd.stock} available in stock</small></Card.Text> : <Card.Text className=' my-3 '><small>Out of stock</small></Card.Text>}
                                                     <Card.Text>
-                                                        <p className='opacity-75 px-3'><small>{pd.desc1}</small></p>
+                                                        <p className='opacity-75 px-3'><small>{pd.desc1.slice(0, 70)}...</small></p>
                                                         <strong className='text-danger'>${pd.price}</strong>
                                                     </Card.Text>
                                                 </Link>

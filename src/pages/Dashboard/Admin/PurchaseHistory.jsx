@@ -46,7 +46,7 @@ class PurchaseHistory extends Component {
                 <Container>
                     <Row className="align-items-center my-5">
                         <Col md={3} >
-                            <img height="200px" src={avatar} className="rounded-circle " alt="" />
+                            <img height="200px" src={this.props.user.user.profileImage ? this.props.user.user.profileImage : avatar} className="rounded-circle " alt="" />
                         </Col>
                         <Col md={9}>
                             <h3>Otto</h3>

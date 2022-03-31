@@ -7,7 +7,7 @@ import withRouter from '../utilities/withRouter';
 import { connect } from 'react-redux';
 import { setUser } from '../redux/UserSlice';
 import { Link } from 'react-router-dom';
-
+import { toast } from "react-toastify"
 class Register extends Component {
     constructor(props) {
         super(props);
@@ -53,7 +53,15 @@ class Register extends Component {
 
         const navigate = this.props.navigate;
         userCreateAccount(email, password, userName)
-            .then(res => this.props.dispatch(setUser(res.data)))
+            .then(res => {
+                this.props.dispatch(setUser(res.data))
+                toast.success("Account Created Successfully", {
+                    position: "bottom-left"
+                })
+            })
+            .catch((err) => toast.error(`${err}`, {
+                position: "bottom-left"
+            }))
 
     }
 

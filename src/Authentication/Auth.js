@@ -12,6 +12,10 @@ const Auth = () => {
             userName: name,
             email,
             password
+        }, {
+            headers: {
+                "Access-Control-Allow-Origin": true
+            }
         })
     }
     const userLogin = (email, password) => {

@@ -52,6 +52,7 @@ class Dashboard extends Component {
                             className="bg-blue-theme text-white"
                             onHide={this.handleClose}
                         >
+                            {console.log(this.props.user)}
                             <Offcanvas.Header closeButton>
                                 <Offcanvas.Title id="offcanvasNavbarLabel"><img src={this.props.user.user.profileImage ? this.props.user.user.profileImage : profile} alt="" width="70px" height="70px" className='rounded-circle' />
                                     <div></div></Offcanvas.Title>

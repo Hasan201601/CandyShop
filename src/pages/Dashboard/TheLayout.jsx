@@ -9,6 +9,7 @@ class Thelayout extends Component {
     render() {
         return (
             <Nav className="justify-content-end flex-grow-1 pe-3">
+                <p>Hi, {this.props.user.userName}</p>
                 {
                     this.props.user.isAdmin ?
                         <>
